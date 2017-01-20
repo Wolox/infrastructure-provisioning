@@ -1,10 +1,10 @@
 module Core
   module ElasticBeanstalk
     class Instance
-      attr_reader :client, :options
+      attr_reader :parameters
 
-      def initialize(options)
-        @options = options
+      def initialize(parameters)
+        @parameters = parameters
         build_client
       end
 
@@ -16,7 +16,7 @@ module Core
       private
 
       def build_client
-        @client = Aws::EC2::Client.new(profile: options[:profile], region: options[:region])
+        @client = Aws::EC2::Client.new(profile: parameters.profile, region: parameters.region)
       end
     end
   end

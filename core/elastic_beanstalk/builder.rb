@@ -7,12 +7,10 @@ module Core
   module ElasticBeanstalk
     class Builder
 
-      attr_reader :client, :project, :options, :application_client, :environment_client
+      attr_reader :parameters, :application_client, :environment_client
 
-      def initialize(project, options)
-        @project = project
-        @options = options
-        set_default_options
+      def initialize(parameters)
+        @parameters = parameters
         init_client
       end
 
@@ -53,16 +51,9 @@ module Core
         environment
       end
 
-      def set_default_options
-        options[:application_name] ||= project
-        options[:environment_name] ||= options[:application_name].gsub(' ', '-')
-        options[:region] ||= DEFAULT_REGION
-        options[:profile] ||= project
-      end
-
       def init_client
-        @environment_client = ElasticBeanstalk::Environment.new(options)
-        @application_client = ElasticBeanstalk::Application.new(options)
+        @environment_client = ElasticBeanstalk::Environment.new(parameters)
+        @application_client = ElasticBeanstalk::Application.new(parameters)
       end
     end
   end

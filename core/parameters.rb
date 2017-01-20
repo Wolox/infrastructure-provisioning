@@ -9,7 +9,6 @@ module Core
       @options = options
       @project = project
       set_default_options
-      initialize_clients
     end
 
     def method_missing(m, *args, &block)

@@ -1,16 +1,16 @@
 module Core
   module ElasticBeanstalk
     class Application
-      attr_reader :client, :options
+      attr_reader :client, :parameters
 
-      def initialize(options)
-        @options = options
+      def initialize(parameters)
+        @parameters = parameters
         build_client
       end
 
       def create
         return fetch_application if application_exists?
-        puts "Creating application with options: #{options}"
+        puts "Creating application with options: #{parameters}"
         client.create_application(application_name: application_name,  description: description)
       end
 
@@ -22,8 +22,8 @@ module Core
 
       def build_client
         @client = Aws::ElasticBeanstalk::Client.new(
-          profile: options[:profile],
-          region: options[:region]
+          profile: parameters.profile,
+          region: parameters.region
         )
       end
 
@@ -33,11 +33,11 @@ module Core
       end
 
       def application_name
-        options[:application_name]
+        parameters.application_name
       end
 
       def description
-        options[:description]
+        parameters.description
       end
     end
   end

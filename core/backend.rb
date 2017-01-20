@@ -1,11 +1,14 @@
+require_relative './parameters'
+require_relative './elastic_beanstalk/builder'
+
 module Core
   class Backend
-    attr_reader :project, :options
+    attr_reader :project, :options, :parameters
 
     def initialize(project, options)
       @options = options
       @project = project
-      @parameters = Parameters.new(project, options)
+      @parameters = Core::Parameters.new(project, options)
     end
 
     def create
@@ -13,13 +16,13 @@ module Core
     end
 
     def show_stacks
-      ElasticBeanstalk::Builder.new(project, {}).show_stacks
+      ElasticBeanstalk::Builder.new(parameters).show_stacks
     end
 
     private
 
     def create_beanstalk_environment
-      ElasticBeanstalk::Builder.new(project, options).create
+      Core::ElasticBeanstalk::Builder.new(parameters).create
     end
   end
 end
