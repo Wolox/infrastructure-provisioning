@@ -1,0 +1,24 @@
+GEM
+  specs:
+    aws-sdk (2.3.19)
+      aws-sdk-resources (= 2.3.19)
+    aws-sdk-core (2.3.19)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.3.19)
+      aws-sdk-core (= 2.3.19)
+    byebug (9.0.5)
+    jmespath (1.2.4)
+      json_pure (>= 1.8.1)
+    json_pure (2.0.0)
+    thor (0.19.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aws-sdk
+  byebug
+  thor
+
+BUNDLED WITH
+   1.11.2
