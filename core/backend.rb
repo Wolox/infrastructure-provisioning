@@ -1,5 +1,6 @@
 require_relative './parameters'
 require_relative './elastic_beanstalk/builder'
+require_relative './rds/builder'
 
 module Core
   class Backend
@@ -12,7 +13,9 @@ module Core
     end
 
     def create
-      create_beanstalk_environment
+      environment = create_beanstalk_environment
+      database = create_rds_instance
+      allow_access_to_db(database, environment)
     end
 
     def show_stacks
@@ -21,8 +24,19 @@ module Core
 
     private
 
+    def allow_access_to_db(database, environment)
+    end
+
+    def create_rds_instance
+      database = Rds::Builder.new(parameters).create
+      puts "Database created: #{database.to_h}"
+      database
+    end
+
     def create_beanstalk_environment
-      Core::ElasticBeanstalk::Builder.new(parameters).create
+      environment = Core::ElasticBeanstalk::Builder.new(parameters).create
+      puts "Beanstalk created: #{environment.to_h}"
+      environment
     end
   end
 end

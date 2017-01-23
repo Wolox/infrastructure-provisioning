@@ -11,7 +11,7 @@ module Core
       def create
         return fetch_application if application_exists?
         puts "Creating application with options: #{parameters}"
-        client.create_application(application_name: application_name,  description: description)
+        client.create_application(application_name: application_name, description: description)
       end
 
       def fetch_application

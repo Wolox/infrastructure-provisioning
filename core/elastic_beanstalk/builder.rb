@@ -6,7 +6,6 @@ require 'byebug'
 module Core
   module ElasticBeanstalk
     class Builder
-
       attr_reader :parameters, :application_client, :environment_client
 
       def initialize(parameters)
@@ -15,8 +14,10 @@ module Core
       end
 
       def create
-        application = create_application
+        create_application
+        puts 'Application created...'
         environment = create_environment
+        puts 'Environment created...'
         security_group = fetch_instance_security_group
         { environment: environment.to_h, security_group: security_group }
       end

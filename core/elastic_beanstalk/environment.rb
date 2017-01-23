@@ -4,7 +4,7 @@ module Core
     class Environment
       VALID_OPTIONS = [:application_name, :environment_name, :group_name, :description,
                        :cname_prefix, :tier, :tags, :version_label, :template_name,
-                       :solution_stack_name, :option_settings, :options_to_remove]
+                       :solution_stack_name, :option_settings, :options_to_remove].freeze
       attr_reader :client, :parameters
 
       def initialize(parameters)
@@ -52,7 +52,6 @@ module Core
         envs = envs.select { |e| e[:status] != 'Terminated' }
         envs.map(&:environment_name).include?(parameters.environment_name)
       end
-
     end
   end
 end

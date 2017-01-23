@@ -1,7 +1,7 @@
 module Core
   module ElasticBeanstalk
     class Instance
-      attr_reader :parameters
+      attr_reader :parameters, :client
 
       def initialize(parameters)
         @parameters = parameters
