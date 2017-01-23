@@ -25,6 +25,7 @@ module Core
     private
 
     def allow_access_to_db(database, environment)
+      Rds::Builder.new(parameters).allow_access_to_db(environment)
     end
 
     def create_rds_instance

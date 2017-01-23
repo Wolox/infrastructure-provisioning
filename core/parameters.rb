@@ -17,7 +17,7 @@ module Core
     end
 
     def method_missing(m, *_args)
-      return super if m.include?('=')
+      return super if m.to_s.include?('=')
       options[m]
     end
 

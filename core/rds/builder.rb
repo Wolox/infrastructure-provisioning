@@ -24,8 +24,8 @@ module Core
         resp[:db_instances].first
       end
 
-      def allow_access_to_db(database, environment)
-        sg_id = database[:vpc_security_groups].first[:vpc_security_group_id]
+      def allow_access_to_db(environment)
+        sg_id = fetch_db_instance[:vpc_security_groups].first[:vpc_security_group_id]
         ec2_client.authorize_security_group_ingress(
           group_id: sg_id, ip_permissions: [
             {
@@ -47,8 +47,10 @@ module Core
       end
 
       def db_exists?
-        resp = client.describe_db_instances(db_instance_identifier: identifier).to_h
-        resp[:db_instances].first != nil
+        fetch_db_instance
+        true
+      rescue Aws::RDS::Errors::DBInstanceNotFound
+        return false
       end
 
       def wait_db
