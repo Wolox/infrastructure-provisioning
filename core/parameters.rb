@@ -15,6 +15,7 @@ module Core
       @options = HashWithIndifferentAccess.new(options)
       @project = project
       set_default_options
+      sanitize
     end
 
     def method_missing(m, *_args)
@@ -58,8 +59,14 @@ module Core
       options[:master_user_password] ||= SecureRandom.hex(10)
       options[:db_instance_class] ||= DEFAULT_DB_INSTANCE_CLASS
       options[:db_instance_identifier] ||= "#{application_name}-#{environment_name}"
-      options[:master_username] ||= db_instance_identifier.gsub('-', '_')
+      options[:master_username] ||= db_instance_identifier
     end
     # rubocop:enable Metrics/AbcSize
+
+    def sanitize
+      options.each do |k, v|
+        options[k] = v.underscore.gsub(/\s+/, '_') if v.is_a?(String)
+      end
+    end
   end
 end
