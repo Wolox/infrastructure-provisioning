@@ -1,7 +1,6 @@
 require 'aws-sdk'
 require_relative './application'
 require_relative './environment'
-require 'byebug'
 
 module Core
   module ElasticBeanstalk
