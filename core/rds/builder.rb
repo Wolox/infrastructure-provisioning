@@ -4,8 +4,8 @@ module Core
   module Rds
     class Builder
       attr_reader :parameters, :client
-      VALID_OPTIONS = [:allocated_storage, :db_instance_identifier, :engine, :master_user_password,
-                       :master_username, :db_instance_class].freeze
+      VALID_OPTIONS = ['allocated_storage', 'db_instance_identifier', 'engine',
+                       'master_user_password', 'master_username', 'db_instance_class'].freeze
 
       def initialize(parameters)
         @parameters = parameters
@@ -72,7 +72,7 @@ module Core
       end
 
       def creation_options
-        parameters.options.select { |k, _v| VALID_OPTIONS.include?(k) }
+        parameters.filter(VALID_OPTIONS)
       end
 
       def init_client

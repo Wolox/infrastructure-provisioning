@@ -2,9 +2,9 @@ require_relative './instance'
 module Core
   module ElasticBeanstalk
     class Environment
-      VALID_OPTIONS = [:application_name, :environment_name, :group_name, :description,
-                       :cname_prefix, :tier, :tags, :version_label, :template_name,
-                       :solution_stack_name, :option_settings, :options_to_remove].freeze
+      VALID_OPTIONS = ['application_name', 'environment_name', 'group_name', 'description',
+                       'cname_prefix', 'tier', 'tags', 'version_label', 'template_name',
+                       'solution_stack_name', 'option_settings', 'options_to_remove'].freeze
       attr_reader :client, :parameters
 
       def initialize(parameters)
@@ -14,7 +14,7 @@ module Core
 
       def create
         return fetch_environment if environment_exists?
-        puts "Creating environment with options: #{parameters}"
+        puts "Creating environment with options: #{options_for_create}"
         client.create_environment(options_for_create)
       end
 
@@ -32,6 +32,10 @@ module Core
         ElasticBeanstalk::Instance.new(parameters).fetch_instance(instance_id)
       end
 
+      def list_available_solution_stacks
+        client.list_available_solution_stacks.solution_stacks
+      end
+
       private
 
       def build_client
@@ -42,7 +46,7 @@ module Core
       end
 
       def options_for_create
-        parameters.options.select { |k, _v| VALID_OPTIONS.include?(k) }
+        parameters.filter(VALID_OPTIONS)
       end
 
       def environment_exists?

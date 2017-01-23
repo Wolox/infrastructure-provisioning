@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'active_support/all'
 module Core
   class Parameters
     DEFAULT_REGION = 'us-east-1'.freeze
@@ -11,18 +12,27 @@ module Core
     attr_reader :options, :environment, :project
 
     def initialize(project, options)
-      @options = options
+      @options = HashWithIndifferentAccess.new(options)
       @project = project
       set_default_options
     end
 
     def method_missing(m, *_args)
       return super if m.to_s.include?('=')
-      options[m]
+      options[m.to_s]
     end
 
     def respond_to_missing?
       super
+    end
+
+    def to_h
+      { project: project }.merge(options)
+    end
+
+    def filter(valid_keys)
+      filtered = options.select { |k, _v| valid_keys.include?(k) }
+      HashWithIndifferentAccess.new(filtered)
     end
 
     private
@@ -48,7 +58,7 @@ module Core
       options[:master_user_password] ||= SecureRandom.hex(10)
       options[:db_instance_class] ||= DEFAULT_DB_INSTANCE_CLASS
       options[:db_instance_identifier] ||= "#{application_name}-#{environment_name}"
-      options[:master_username] ||= db_instance_identifier.tr('-', '_')
+      options[:master_username] ||= db_instance_identifier.gsub('-', '_')
     end
     # rubocop:enable Metrics/AbcSize
   end

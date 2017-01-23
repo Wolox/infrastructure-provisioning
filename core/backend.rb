@@ -19,7 +19,7 @@ module Core
     end
 
     def show_stacks
-      ElasticBeanstalk::Builder.new(parameters).show_stacks
+      puts ElasticBeanstalk::Builder.new(parameters).show_stacks
     end
 
     private

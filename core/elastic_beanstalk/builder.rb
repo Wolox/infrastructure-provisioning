@@ -32,7 +32,7 @@ module Core
       end
 
       def show_stacks
-        client.list_available_solution_stacks.solution_stacks
+        environment_client.list_available_solution_stacks
       end
 
       private
