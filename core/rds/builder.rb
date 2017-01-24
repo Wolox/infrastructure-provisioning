@@ -24,7 +24,7 @@ module Core
         resp[:db_instances].first
       end
 
-      def allow_access_to_db(environment)
+      def allow_access_from(environment, ec2_client)
         sg_id = fetch_db_instance[:vpc_security_groups].first[:vpc_security_group_id]
         ec2_client.authorize_security_group_ingress(
           group_id: sg_id, ip_permissions: [
@@ -38,13 +38,6 @@ module Core
       end
 
       private
-
-      def ec2_client
-        @ec2_client ||= Aws::EC2::Client.new(
-          region: parameters.region,
-          profile: parameters.profile
-        )
-      end
 
       def db_exists?
         fetch_db_instance

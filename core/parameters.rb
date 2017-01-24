@@ -44,11 +44,13 @@ module Core
       options[:application_name] ||= project
       set_default_beanstalk_params
       set_default_rds_params
+      set_redis_params
     end
 
     def set_default_beanstalk_params
       options[:environment_name] ||= DEFAULT_ENVIRONMENT_NAME
       options[:cname_prefix] = "#{application_name}-#{environment_name}"
+      options[:identifier] = options[:cname_prefix]
       options[:solution_stack_name] ||= DEFAULT_STACK
     end
 
@@ -62,6 +64,10 @@ module Core
       options[:master_username] ||= db_instance_identifier
     end
     # rubocop:enable Metrics/AbcSize
+
+    def set_redis_params
+      options[:cache_node_type] ||= 'cache.t2.small'
+    end
 
     def sanitize
       options.each do |k, v|

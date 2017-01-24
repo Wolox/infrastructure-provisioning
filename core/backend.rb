@@ -1,6 +1,7 @@
 require_relative './parameters'
 require_relative './elastic_beanstalk/builder'
 require_relative './rds/builder'
+require_relative './service_finder'
 
 module Core
   class Backend
@@ -14,8 +15,11 @@ module Core
 
     def create
       environment = create_beanstalk_environment
-      database = create_rds_instance
-      allow_access_to_db(database, environment)
+      services = Core::ServiceFinder.new.load_services(%w(rds redis))
+      services.each do |service|
+        service.create
+        service.allow_access_from(environment, ec2_client)
+      end
     end
 
     def show_stacks
@@ -24,16 +28,13 @@ module Core
 
     private
 
-    def allow_access_to_db(database, environment)
-      Rds::Builder.new(parameters).allow_access_to_db(environment)
+    def ec2_client
+      @ec2_client ||= Aws::EC2::Client.new(
+        region: parameters.region,
+        profile: parameters.profile
+      )
     end
-
-    def create_rds_instance
-      database = Rds::Builder.new(parameters).create
-      puts "Database created: #{database.to_h}"
-      database
-    end
-
+    
     def create_beanstalk_environment
       environment = Core::ElasticBeanstalk::Builder.new(parameters).create
       puts "Beanstalk created: #{environment.to_h}"
