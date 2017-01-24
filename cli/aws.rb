@@ -24,6 +24,7 @@ module Cli
     option :master_user_password
     option :master_username
     option :db_instance_class
+    option :services, required: true
     def create_backend(project)
       puts "Creating backend for #{project} with services: #{options[:services]}"
       Core::Backend.new(project, options).create
