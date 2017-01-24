@@ -9,8 +9,8 @@ module Core
       end
 
       def create
+        puts "Creating application with options: #{parameters.options.to_h}"
         return fetch_application if application_exists?
-        puts "Creating application with options: #{parameters.options}"
         client.create_application(application_name: application_name, description: description)
       end
 

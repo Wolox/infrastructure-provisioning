@@ -1,5 +1,6 @@
 require 'aws-sdk'
-require 'byebug'
+require_relative '../security_group'
+
 module Core
   module Rds
     class Builder
@@ -24,17 +25,12 @@ module Core
         resp[:db_instances].first
       end
 
-      def allow_access_from(environment, ec2_client)
+      def allow_access_from(environment)
+        sg_builder = Core::SecurityGroup.new(parameters)
         sg_id = fetch_db_instance[:vpc_security_groups].first[:vpc_security_group_id]
-        ec2_client.authorize_security_group_ingress(
-          group_id: sg_id, ip_permissions: [
-            {
-              ip_protocol: 'tcp', from_port: 5432, to_port: 5432, user_id_group_pairs: [
-                { group_name: environment[:security_group].group_name }
-              ]
-            }
-          ]
-        )
+        source_group = environment[:security_group].group_name
+        sg_builder.allow_access(sg_id, source_group, 5432, 5432, 'tcp')
+      rescue Aws::EC2::Errors::InvalidPermissionDuplicate
       end
 
       private
@@ -61,7 +57,14 @@ module Core
 
       def create_database
         puts 'Creating database...'
-        client.create_db_instance(creation_options)
+        group_id = create_security_group
+        client.create_db_instance(creation_options.merge(vpc_security_group_ids: [group_id]))
+      end
+
+      def create_security_group
+        sg_builder = Core::SecurityGroup.new(parameters)
+        resp = sg_builder.create_security_group('rds')
+        resp.group_id
       end
 
       def creation_options

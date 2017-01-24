@@ -1,3 +1,6 @@
+require 'aws-sdk'
+require_relative '../security_group'
+
 module Core
   module Redis
     class Builder
@@ -14,24 +17,21 @@ module Core
         fetch_cluster
       end
 
-      def allow_access_from(environment, ec2_client)
-        sg_id = fetch_cluster[:cache_security_groups].first[:vpc_security_group_id]
-        ec2_client.authorize_security_group_ingress(
-          group_id: sg_id, ip_permissions: [
-            {
-              ip_protocol: 'tcp', from_port: 6379, to_port: 6379, user_id_group_pairs: [
-                { group_name: environment[:security_group].group_name }
-              ]
-            }
-          ]
-        )
+      def allow_access_from(environment)
+        sg_builder = Core::SecurityGroup.new(parameters)
+        sg_id = fetch_cluster.security_groups.first.security_group_id
+        source_group = environment[:security_group].group_name
+        sg_builder.allow_access(sg_id, source_group, 6379, 6379, 'tcp')
       end
 
       private
 
       def fetch_cluster
-        clusters = client.describe_cache_clusters(cache_cluster_id: parameters.identifier).to_h
-        clusters['cache_clusters'].first
+        clusters = client.describe_cache_clusters(cache_cluster_id: parameters.identifier[0..19])
+        clusters.cache_clusters.first
+      rescue Aws::ElastiCache::Errors::CacheClusterNotFound => e
+        puts e
+        nil
       end
 
       def cache_cluster_exists?
@@ -40,11 +40,20 @@ module Core
 
       def create_cache_cluster
         puts "Creating redis cluster..."
+        sg_id = create_security_group
         client.create_cache_cluster(
-          cache_cluster_id: parameters.identifier,
+          cache_cluster_id: parameters.identifier[0..19],
           cache_node_type: parameters.cache_node_type,
-          engine: 'redis'
+          engine: 'redis',
+          num_cache_nodes: 1,
+          security_group_ids: [sg_id]
         )
+      end
+
+      def create_security_group
+        sg_builder = Core::SecurityGroup.new(parameters)
+        resp = sg_builder.create_security_group('redis')
+        resp.group_id
       end
 
       def wait_for_cluster
