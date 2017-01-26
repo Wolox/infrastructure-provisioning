@@ -15,7 +15,7 @@ module Core
 
     def create
       environment = create_beanstalk_environment
-      services = Core::ServiceFinder.new.load_services(options.services, parameters)
+      services = Core::ServiceFinder.new.load_services(parameters)
       services.each do |service|
         service.create
         service.allow_access_from(environment)

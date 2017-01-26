@@ -1,4 +1,6 @@
 require_relative './instance'
+require 'byebug'
+
 module Core
   module ElasticBeanstalk
     class Environment

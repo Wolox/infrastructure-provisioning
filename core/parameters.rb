@@ -41,6 +41,7 @@ module Core
       options[:region] ||= DEFAULT_REGION
       options[:profile] ||= project
       options[:application_name] ||= project
+      options[:services] = options[:services].split(',')
       set_default_beanstalk_params
       set_default_rds_params
       set_redis_params

@@ -6,7 +6,8 @@ module Core
   class ServiceFinder
     VALID_SERVICES = %w(rds redis)
 
-    def load_services(services, parameters)
+    def load_services(parameters)
+      services = parameters.services
       services = services.select { |s| VALID_SERVICES.include?(s.to_s) }
       services.map(&:capitalize).map do |service|
         Object.const_get("Core::#{service}::Builder").new(parameters)
