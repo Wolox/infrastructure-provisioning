@@ -6,7 +6,8 @@ module Core
     class Builder
       attr_reader :parameters, :client
       VALID_OPTIONS = ['allocated_storage', 'db_instance_identifier', 'engine',
-                       'master_user_password', 'master_username', 'db_instance_class'].freeze
+                       'master_user_password', 'master_username', 'db_instance_class',
+                       'db_name'].freeze
 
       def initialize(parameters)
         @parameters = parameters

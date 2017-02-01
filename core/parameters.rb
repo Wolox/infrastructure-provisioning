@@ -3,7 +3,7 @@ require 'active_support/all'
 module Core
   class Parameters
     DEFAULT_REGION = 'us-east-1'.freeze
-    DEFAULT_STACK = '64bit Amazon Linux 2016.09 v2.3.0 running Ruby 2.3 (Puma)'.freeze
+    DEFAULT_STACK = '64bit Amazon Linux 2016.09 v2.3.1 running Ruby 2.3 (Puma)'.freeze
     DEFAULT_ENGINE = 'postgres'.freeze
     DEFAULT_ALLOCATED_STORAGE = 30
     DEFAULT_DB_INSTANCE_CLASS = 'db.t2.micro'.freeze
@@ -62,6 +62,7 @@ module Core
       options[:db_instance_class] ||= DEFAULT_DB_INSTANCE_CLASS
       options[:db_instance_identifier] ||= "#{application_name}-#{environment_name}"
       options[:master_username] ||= db_instance_identifier.gsub('-', '_')
+      options[:db_name] ||= application_name
     end
     # rubocop:enable Metrics/AbcSize
 
