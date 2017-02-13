@@ -9,7 +9,7 @@ const rds = new AWS.RDS();
 
 const getInitialMessage = () => {
   const environment = process.env.ENVIRONMENT;
-  const application = process.env.ENVIRONMENT;
+  const application = process.env.APPLICATION;
   const rdsInstance = process.env.RDS_INSTANCE;
   const message = `This is to let you know that your beanstalk application ${application}-${environment}\
    and your RDS database ${rdsInstance} are being turned on`;
@@ -19,7 +19,7 @@ const getInitialMessage = () => {
 
 const getFinalMessage = () => {
   const environment = process.env.ENVIRONMENT;
-  const application = process.env.ENVIRONMENT;
+  const application = process.env.APPLICATION;
   const rdsInstance = process.env.RDS_INSTANCE;
   const message = `This is to let you know that your beanstalk application ${application}-${environment}\
    and your RDS database ${rdsInstance} are up and running`;
