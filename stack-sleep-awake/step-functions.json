@@ -4,18 +4,18 @@
   "States": {
     "Send Notification": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_send-notification",
+      "Resource": "",
       "Next": "RestoreRDS"
     },
     "RestoreRDS": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_restore-rds",
+      "Resource": "",
       "ResultPath": "$.rdsSnapshot",
       "Next": "RestoreBeanstalk"
     },
     "RestoreBeanstalk": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_restore-beanstalk",
+      "Resource": "",
       "ResultPath": "$.beanstalkTemplate",
       "Next": "Parallel"
     },
@@ -27,7 +27,7 @@
         "States": {
           "Request RDS Status": {
             "Type": "Task",
-            "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_get-rds-status",
+            "Resource": "",
             "ResultPath": "$.rdsStatus",
             "Next": "Check If Ready"
           },
@@ -54,7 +54,7 @@
         "States": {
           "Request Beanstalk Status": {
             "Type": "Task",
-            "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_get-beanstalk-status",
+            "Resource": "",
             "ResultPath": "$.beanstalkStatus",
             "Next": "Check If Beanstalk Ready"
           },
@@ -80,17 +80,22 @@
     },
     "Add Security Group Rule": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_set-sg-inbound-rule",
+      "Resource": "",
       "Next": "Deploy Beanstalk"
     },
     "Deploy Beanstalk": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_deploy-beanstalk",
+      "Resource": "",
+      "Next": "Delete Snapshot and Template"
+    },
+    "Delete Snapshot and Template": {
+      "Type": "Task",
+      "Resource": "",
       "Next": "Send Final Notification"
     },
     "Send Final Notification": {
       "Type": "Task",
-      "Resource": "arn:aws:lambda:us-east-1:314272986340:function:stack-awake_send-notification",
+      "Resource": "",
       "End": true
     }
   }
