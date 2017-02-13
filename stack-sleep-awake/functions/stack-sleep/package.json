@@ -1,0 +1,28 @@
+{
+  "name": "stack-sleep",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.7.27",
+    "jslint": "^0.10.3",
+    "lint": "^1.1.2",
+    "moment": "^2.17.1",
+    "momentjs": "^2.0.0",
+    "sleep": "^5.1.0"
+  },
+  "engines": {
+    "node": "6.5.0",
+    "npm": "2.14.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.14.0",
+    "eslint-config-google": "^0.7.1"
+  }
+}
