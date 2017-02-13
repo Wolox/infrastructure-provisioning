@@ -62,7 +62,7 @@ module Core
       options[:db_instance_class] ||= DEFAULT_DB_INSTANCE_CLASS
       options[:db_instance_identifier] ||= "#{application_name}-#{environment_name}"
       options[:master_username] ||= db_instance_identifier.gsub('-', '_')
-      options[:db_name] ||= application_name
+      options[:db_name] ||= application_name.gsub('-', '_')
     end
     # rubocop:enable Metrics/AbcSize
 
