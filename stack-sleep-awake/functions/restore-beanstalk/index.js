@@ -1,3 +1,4 @@
+'use strict';
 console.log('starting function');
 
 const AWS = require('aws-sdk');

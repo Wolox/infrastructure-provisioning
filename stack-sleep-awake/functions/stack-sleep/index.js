@@ -222,7 +222,7 @@ const terminateRdsInstance = (instance) => {
   .then(deleteInstance);
 };
 
-exports.handler = (event, context, callback) => {
+exports.handle = (event, context, callback) => {
   console.log('Received event:', JSON.stringify(event, null, 2));
   terminateRdsInstance(process.env.RDS_INSTANCE)
   .then(() => saveAndTerminateBeanstalkEnvironment(process.env.APPLICATION, process.env.ENVIRONMENT))
