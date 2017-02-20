@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'thor'
 require_relative '../core/backend'
+require_relative './formatters/configuration_formatter'
 
 module Cli
   class Aws < Thor
@@ -22,7 +23,9 @@ module Cli
     option :services, required: true
     def create_backend(project)
       puts "Creating backend for #{project} with services: #{options[:services]}"
-      Core::Backend.new(project, options).create
+      backend = Core::Backend.new(project, options)
+      configuration = backend.create
+      Formatters::ConfigurationFormatter.new(backend.parameters).print
     end
 
     desc 'Prints available stacks', 'Prints available stacks'

@@ -9,7 +9,7 @@ module Core
       end
 
       def create
-        puts "Creating application with options: #{parameters.options.to_h}"
+        puts "Creating beanstalk application"
         return fetch_application if application_exists?
         client.create_application(application_name: application_name, description: description)
       end

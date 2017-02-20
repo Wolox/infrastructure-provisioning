@@ -4,4 +4,5 @@ gem 'aws-sdk'
 gem 'thor'
 gem 'pry'
 gem 'rubocop', require: false
+gem 'awesome_print'
 gem 'activesupport', '~> 5.0'
