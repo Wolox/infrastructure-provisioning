@@ -3,14 +3,14 @@
     "path": "COMPLETE_PATH_TO_REPOSITORY_FOLDER",
     "tech": "rails",
     "instances": [
-      "EB-API-DEV-INSTANCE", "EB-API-STAGE-INSTANCE", "EB-API-PRODUCTION-INSTANCE"
+      "EB-DEV-INSTANCE", "EB-STAGE-INSTANCE", "EB-PRODUCTION-INSTANCE"
     ]
   },
   { "name": "Other API",
     "path": "COMPLETE_PATH_TO_REPOSITORY_FOLDER",
     "tech": "node",
     "instances": [
-      "EB-API-DEV-INSTANCE", "EB-API-STAGE-INSTANCE", "EB-API-PRODUCTION-INSTANCE"
+      "EB-DEV-INSTANCE", "EB-STAGE-INSTANCE", "EB-PRODUCTION-INSTANCE"
     ]
   }
 ]
