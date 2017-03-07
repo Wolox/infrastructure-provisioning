@@ -1,5 +1,4 @@
 resource "aws_db_instance" "stage" {
-  depends_on             = ["aws_security_group.stage"]
   identifier             = "${var.application_name}-${var.environment}"
   allocated_storage      = "${var.storage}"
   engine                 = "${var.engine}"
@@ -8,7 +7,7 @@ resource "aws_db_instance" "stage" {
   name                   = "${replace("${var.application_name}", "-", "_")}"
   username               = "${replace("${var.application_name}", "-", "_")}"
   password               = "${var.database_password}"
-  vpc_security_group_ids = ["${aws_security_group.stage.id}"]
+  vpc_security_group_ids = ["${aws_security_group.rds.id}"]
   db_subnet_group_name   = "${aws_db_subnet_group.stage.id}"
 }
 
