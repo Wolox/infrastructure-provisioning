@@ -1,5 +1,8 @@
+variable "environment" {}
+variable "application_name" {}
+
 resource "aws_elasticache_cluster" "bar" {
-    cluster_id = "${var.environment}-${var.environment}"
+    cluster_id = "${var.application_name}-${var.environment}"
     engine = "redis"
     node_type = "cache.t2.micro"
     port = 6379
