@@ -26,11 +26,12 @@ resource "aws_subnet" "us-east-1d-public" {
 
 resource "aws_route_table" "us-east-1-public" {
   vpc_id = "${aws_vpc.stage.id}"
+}
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.stage.id}"
-  }
+resource "aws_route" "us-east-1-public" {
+  route_table_id = "${aws_route_table.us-east-1-public.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = "${aws_internet_gateway.stage.id}"
 }
 
 resource "aws_route_table_association" "us-east-1b-public" {

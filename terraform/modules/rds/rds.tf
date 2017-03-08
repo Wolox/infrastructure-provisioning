@@ -1,8 +1,18 @@
+variable "environment" {}
+variable "application_name" {}
+variable "private_subnet_a" {}
+variable "private_subnet_b" {}
+variable "engine" {}
+variable "engine_version" {}
+variable "storage" {}
+variable "instance_class" {}
+variable "database_password" {}
+
 resource "aws_db_instance" "stage" {
   identifier             = "${var.application_name}-${var.environment}"
   allocated_storage      = "${var.storage}"
   engine                 = "${var.engine}"
-  engine_version         = "${lookup(var.engine_version, var.engine)}"
+  engine_version         = "${var.engine_version}"
   instance_class         = "${var.instance_class}"
   name                   = "${replace("${var.application_name}", "-", "_")}"
   username               = "${replace("${var.application_name}", "-", "_")}"
@@ -12,7 +22,6 @@ resource "aws_db_instance" "stage" {
 }
 
 resource "aws_db_subnet_group" "stage" {
-  name        = "main_subnet_group"
-  description = "Our main group of subnets"
-  subnet_ids  = ["${aws_subnet.us-east-1b-private.id}", "${aws_subnet.us-east-1d-private.id}"]
+  name        = "rds-${var.application_name}-${var.environment}"
+  subnet_ids  = ["${var.private_subnet_a}", "${var.private_subnet_b}"]
 }

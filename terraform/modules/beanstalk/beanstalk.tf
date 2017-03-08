@@ -1,3 +1,9 @@
+variable "environment" {}
+variable "application_name" {}
+variable "vpc_id" {}
+variable "public_subnet_a" {}
+variable "public_subnet_b" {}
+
 resource "aws_elastic_beanstalk_application" "stage" {
   name = "${var.application_name}"
   description = "${var.application_name}-${var.environment}"
@@ -12,13 +18,13 @@ resource "aws_elastic_beanstalk_environment" "stage" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
-    value     = "${aws_vpc.stage.id}"
+    value     = "${var.vpc_id}"
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = "${aws_subnet.us-east-1b-public.id}"
+    value     = "${var.public_subnet_a}, ${var.public_subnet_b}"
   }
 
   setting {
