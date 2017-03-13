@@ -6,4 +6,6 @@ variable "bucket_name" {
 module "s3" {
   source = "../../modules/s3"
   bucket_name = "${var.bucket_name}"
+  acl = "public-read"
+  has_policy = true
 }

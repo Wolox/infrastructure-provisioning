@@ -1,7 +1,9 @@
 variable "bucket_name" {}
+variable "acl" {}
+variable "has_policy" {}
 
 data "template_file" "init" {
-    template = "${file("../../modules/s3/policy.tpl")}"
+    template = "${file("${var.bucket_name}.tpl")}"
 
     vars {
         bucket_name = "${var.bucket_name}"
@@ -10,8 +12,8 @@ data "template_file" "init" {
 
 resource "aws_s3_bucket" "b" {
     bucket = "${var.bucket_name}"
-    acl = "public-read"
-    policy = "${data.template_file.init.rendered}"
+    acl = "${var.acl}"
+    policy = "${var.has_policy ? data.template_file.init.rendered : ""}"
 
     cors_rule {
         allowed_headers = ["Authorization"]
