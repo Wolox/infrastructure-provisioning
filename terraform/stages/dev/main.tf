@@ -39,4 +39,5 @@ module "rds" {
   vpc_id = "${module.vpc.id}"
   public_subnet_a_cidr_block = "${module.vpc.public_subnet_a_cidr_block}"
   public_subnet_b_cidr_block = "${module.vpc.public_subnet_b_cidr_block}"
+  beanstalk_sg_id = "${module.api.beanstalk_sg_id}"
 }

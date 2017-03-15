@@ -1,6 +1,7 @@
 variable "vpc_id" {}
 variable "public_subnet_a_cidr_block" {}
 variable "public_subnet_b_cidr_block" {}
+variable "beanstalk_sg_id" {}
 
 resource "aws_security_group" "rds" {
   name        = "rds-${var.environment}-sg"
@@ -12,6 +13,13 @@ resource "aws_security_group" "rds" {
     to_port     = 5432
     protocol    = "TCP"
     cidr_blocks = ["${var.public_subnet_a_cidr_block}", "${var.public_subnet_b_cidr_block}"]
+  }
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "TCP"
+    security_groups = ["${var.beanstalk_sg_id}"]
   }
 
   egress {

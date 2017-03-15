@@ -32,4 +32,10 @@ resource "aws_elastic_beanstalk_environment" "stage" {
     name      = "AssociatePublicIpAddress"
     value     = "true"
   }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "SecurityGroups"
+    value     = "${aws_security_group.beanstalk.id}"
+  }
 }
