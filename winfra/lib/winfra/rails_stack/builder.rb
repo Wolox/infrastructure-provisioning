@@ -5,22 +5,23 @@ module Winfra
     class Builder
       attr_reader :path, :env, :public_website, :app_name, :beanstalk_base, :rds_base
 
-      BEANSTALK_RESOURCE_TEMPLATE = 'lib/winfra/templates/beanstalk-resource.tf.erb'
-      BEANSTALK_SG_TEMPLATE = 'lib/winfra/templates/beanstalk-sg.tf.erb'
-      BEANSTALK_OUTPUTS_TEMPLATE = 'lib/winfra/templates/beanstalk-outputs.tf.erb'
+      BEANSTALK_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-resource.tf.erb')
+      BEANSTALK_SG_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-sg.tf.erb')
+      BEANSTALK_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-outputs.tf.erb')
 
-      RDS_RESOURCE_TEMPLATE = 'lib/winfra/templates/rds-resource.tf.erb'
-      RDS_SG_TEMPLATE = 'lib/winfra/templates/rds-sg.tf.erb'
+      RDS_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rds-resource.tf.erb')
+      RDS_SG_TEMPLATE = Winfra.path_to('winfra/templates/rds-sg.tf.erb')
 
-      MAIN_TEMPLATE = 'lib/winfra/templates/rails-stack-main.tf.erb'
+      MAIN_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack-main.tf.erb')
 
-      def initialize(path, env, vpc, app_name)
+      def initialize(path, env, vpc, app_name, profile)
         @path = path
         @env = env
         @has_vpc = vpc
         @app_name = app_name
         @beanstalk_base = "#{path}/infrastructure/modules/beanstalk"
         @rds_base = "#{path}/infrastructure/modules/rds"
+        @profile = profile
       end
 
       def build
@@ -44,6 +45,7 @@ module Winfra
 
       def generate_main_template
         render_template(MAIN_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/main.tf")
+        render_template(CONFIG_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/config.tf")
       end
 
       def render_template(template_path, dest_path)
