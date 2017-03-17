@@ -1,7 +1,7 @@
 resource "aws_security_group" "beanstalk" {
   name        = "beanstalk-${var.environment}-sg"
   description = "Beanstalk EC2 Security Group"
-  vpc_id      = "${var.has_vpc ? var.vpc_id : ""}"
+  
 
   egress {
     from_port   = 0
