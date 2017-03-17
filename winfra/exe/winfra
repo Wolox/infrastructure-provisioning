@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "winfra"
+# require "bundler/setup"
+# require "winfra"
+#
+# Winfra::Cli.start(ARGV)
 
-Winfra::Cli.start(ARGV)
+require "winfra"
