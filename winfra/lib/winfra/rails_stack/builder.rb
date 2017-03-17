@@ -3,7 +3,7 @@ require "erb"
 module Winfra
   module RailsStack
     class Builder
-      attr_reader :path, :env, :public_website, :app_name, :beanstalk_base, :rds_base
+      attr_reader :path, :env, :public_website, :app_name, :beanstalk_base, :rds_base, :has_vpc
 
       BEANSTALK_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-resource.tf.erb')
       BEANSTALK_SG_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-sg.tf.erb')
