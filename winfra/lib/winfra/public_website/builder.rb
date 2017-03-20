@@ -26,10 +26,10 @@ module Winfra
       end
 
       def render_template(template_path, dest_path)
-        puts "Rendering template..."
+        Winfra.logger.debug "Rendering template #{template_path}"
         template = File.read(template_path)
         string = ERB.new(template).result( binding )
-        puts "Saving template..."
+        Winfra.logger.debug "Saving template to #{dest_path}"
         File.open(dest_path, 'w') { |file| file.write(string) }
       end
     end

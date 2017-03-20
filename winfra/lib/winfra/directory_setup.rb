@@ -12,7 +12,7 @@ module Winfra
     private
 
     def create_directory(path)
-      puts "Creating directory #{path} if it doesn't exist"
+      Winfra.logger.debug "Creating directory #{path} if it doesn't exist"
       FileUtils.mkdir_p(path)
     end
   end
