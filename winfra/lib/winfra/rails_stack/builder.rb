@@ -38,34 +38,26 @@ module Winfra
 
       def generate_vpc_templates
         FileUtils.mkdir_p(vpc_base)
-        render_template(VPC_RESOURCE_TEMPLATE, "#{vpc_base}/vpc.tf")
-        render_template(VPC_OUTPUTS_TEMPLATE, "#{vpc_base}/outputs.tf")
+        Winfra.render_template(VPC_RESOURCE_TEMPLATE, "#{vpc_base}/vpc.tf", binding)
+        Winfra.render_template(VPC_OUTPUTS_TEMPLATE, "#{vpc_base}/outputs.tf", binding)
       end
 
       def generate_beanstalk_templates
         FileUtils.mkdir_p(beanstalk_base)
-        render_template(BEANSTALK_RESOURCE_TEMPLATE, "#{beanstalk_base}/beanstalk.tf")
-        render_template(BEANSTALK_SG_TEMPLATE, "#{beanstalk_base}/beanstalk-sg.tf")
-        render_template(BEANSTALK_OUTPUTS_TEMPLATE, "#{beanstalk_base}/outputs.tf")
+        Winfra.render_template(BEANSTALK_RESOURCE_TEMPLATE, "#{beanstalk_base}/beanstalk.tf", binding)
+        Winfra.render_template(BEANSTALK_SG_TEMPLATE, "#{beanstalk_base}/beanstalk-sg.tf", binding)
+        Winfra.render_template(BEANSTALK_OUTPUTS_TEMPLATE, "#{beanstalk_base}/outputs.tf", binding)
       end
 
       def generate_rds_templates
         FileUtils.mkdir_p(rds_base)
-        render_template(RDS_RESOURCE_TEMPLATE, "#{rds_base}/rds.tf")
-        render_template(RDS_SG_TEMPLATE, "#{rds_base}/rds-sg.tf")
+        Winfra.render_template(RDS_RESOURCE_TEMPLATE, "#{rds_base}/rds.tf", binding)
+        Winfra.render_template(RDS_SG_TEMPLATE, "#{rds_base}/rds-sg.tf", binding)
       end
 
       def generate_main_template
-        render_template(MAIN_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/main.tf")
-        render_template(CONFIG_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/config.tf")
-      end
-
-      def render_template(template_path, dest_path)
-        Winfra.logger.debug "Rendering template #{template_path}"
-        template = File.read(template_path)
-        string = ERB.new(template).result( binding )
-        Winfra.logger.debug "Saving template to #{dest_path}"
-        File.open(dest_path, 'w') { |file| file.write(string) }
+        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/main.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/config.tf", binding)
       end
     end
   end

@@ -45,6 +45,7 @@ const terminateBeanstalkEnvironment = (environmentData) => {
 };
 
 const getBeanstalkEnvironmentId = (application, environment) => {
+  console.log('Fetching beanstalk environment id...');
   return new Promise((resolve, reject) => {
     const params = {
       ApplicationName: application,
@@ -224,8 +225,8 @@ const terminateRdsInstance = (instance) => {
 
 exports.handle = (event, context, callback) => {
   console.log('Received event:', JSON.stringify(event, null, 2));
-  terminateRdsInstance(process.env.RDS_INSTANCE)
-  .then(() => saveAndTerminateBeanstalkEnvironment(process.env.APPLICATION, process.env.ENVIRONMENT))
+  terminateRdsInstance(event.rds_instance || process.env.RDS_INSTANCE)
+  .then(() => saveAndTerminateBeanstalkEnvironment(event.application || process.env.APPLICATION, event.environment || process.env.ENVIRONMENT))
   .catch((err) => {
     console.log(err);
   });

@@ -103,10 +103,11 @@ const authorizeSecurityGroupIngress = (data) => {
 
 exports.handle = function (e, ctx, cb) {
   console.log('processing event: %j', e);
-  const data = { rdsInstance: process.env.RDS_INSTANCE, application: process.env.APPLICATION,
-    environment: process.env.ENVIRONMENT };
+  const data = { rdsInstance: e[0].rds_instance || process.env.RDS_INSTANCE, application: e[0].application || process.env.APPLICATION,
+    environment: e[0].environment || process.env.ENVIRONMENT };
   authorizeSecurityGroupIngress(data).then(() => {
-    cb(null, { rdsSnapshot: e[0].rdsSnapshot, beanstalkTemplate: e[0].beanstalkTemplate });
+    cb(null, { rdsSnapshot: e[0].rdsSnapshot, beanstalkTemplate: e[0].beanstalkTemplate, rds_instance: data.rdsInstance,
+      application: data.application, environment: e[0].environment || process.env.ENVIRONMENT });
   }).catch((error) => {
     cb(error);
   });

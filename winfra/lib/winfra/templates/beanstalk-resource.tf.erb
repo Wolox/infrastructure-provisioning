@@ -1,10 +1,11 @@
 variable "environment" {}
 variable "application_name" {}
-variable "has_vpc" {}
+variable "instance_type" {}
+<% if @has_vpc %>
 variable "vpc_id" {}
 variable "public_subnet_a" {}
 variable "public_subnet_b" {}
-variable "instance_type" {}
+<% end %>
 
 resource "aws_elastic_beanstalk_application" "stage" {
   name = "${var.application_name}"
@@ -41,7 +42,7 @@ resource "aws_elastic_beanstalk_environment" "stage" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
-    value     = "${aws_security_group.beanstalk.id}"
+    value     = "${aws_security_group.beanstalk.name}"
   }
 
   setting {

@@ -59,7 +59,7 @@ const restoreDbFromSnapshot = (data) => {
 
 exports.handle = function (e, ctx, cb) {
   console.log('processing event: %j', e);
-  const data = { rdsInstance: process.env.RDS_INSTANCE };
+  const data = { rdsInstance: e.rds_instance || process.env.RDS_INSTANCE };
   getLastestSnapshot(data)
   .then(restoreDbFromSnapshot)
   .then((result) => {
