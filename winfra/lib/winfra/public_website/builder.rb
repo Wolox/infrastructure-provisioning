@@ -19,18 +19,10 @@ module Winfra
 
       def build
         FileUtils.mkdir_p("#{path}/infrastructure/modules/s3")
-        render_template(RESOURCE_TEMPLATE, "#{@path}/infrastructure/modules/s3/s3.tf")
-        render_template(POLICY_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/#{domain}.tpl")
-        render_template(MAIN_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/s3-public-website.tf")
-        render_template(CONFIG_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/config.tf")
-      end
-
-      def render_template(template_path, dest_path)
-        Winfra.logger.debug "Rendering template #{template_path}"
-        template = File.read(template_path)
-        string = ERB.new(template).result( binding )
-        Winfra.logger.debug "Saving template to #{dest_path}"
-        File.open(dest_path, 'w') { |file| file.write(string) }
+        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/infrastructure/modules/s3/s3.tf", binding)
+        Winfra.render_template(POLICY_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/#{domain}.tpl", binding)
+        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/s3-public-website.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/config.tf", binding)
       end
     end
   end

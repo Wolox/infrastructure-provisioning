@@ -16,6 +16,7 @@ const compare = (a, b) => {
 };
 
 const getLastestSnapshot = (data) => {
+  console.log(`getLastestSnapshot with ${JSON.stringify(data)}`);
   return new Promise((resolve, reject) => {
     const params = {
       DBInstanceIdentifier: data.rdsInstance,
@@ -59,7 +60,7 @@ const restoreDbFromSnapshot = (data) => {
 
 exports.handle = function (e, ctx, cb) {
   console.log('processing event: %j', e);
-  const data = { rdsInstance: process.env.RDS_INSTANCE };
+  const data = { rdsInstance: e.rds_instance || process.env.RDS_INSTANCE };
   getLastestSnapshot(data)
   .then(restoreDbFromSnapshot)
   .then((result) => {

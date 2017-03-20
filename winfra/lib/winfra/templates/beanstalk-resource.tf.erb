@@ -1,10 +1,11 @@
 variable "environment" {}
 variable "application_name" {}
-variable "has_vpc" {}
-variable "vpc_id" {}
-variable "public_subnet_a" {}
-variable "public_subnet_b" {}
 variable "instance_type" {}
+<% if @has_vpc %>
+  variable "vpc_id" {}
+  variable "public_subnet_a" {}
+  variable "public_subnet_b" {}
+<% end %>
 
 resource "aws_elastic_beanstalk_application" "stage" {
   name = "${var.application_name}"
@@ -16,7 +17,6 @@ resource "aws_elastic_beanstalk_environment" "stage" {
   application = "${aws_elastic_beanstalk_application.stage.name}"
   solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.1 running Ruby 2.3 (Puma)"
   cname_prefix = "${var.application_name}-${var.environment}"
-
 
   <% if @has_vpc %>
     setting {
@@ -41,7 +41,7 @@ resource "aws_elastic_beanstalk_environment" "stage" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
-    value     = "${aws_security_group.beanstalk.id}"
+    value     = "${aws_security_group.beanstalk.name}"
   }
 
   setting {

@@ -10,8 +10,14 @@ const rds = new AWS.RDS();
 
 const executeStateMachine = () => {
   return new Promise((resolve, reject) => {
+    const input = {
+      application: process.env.APPLICATION,
+      environment: process.env.ENVIRONMENT,
+      rds_instance: process.env.RDS_INSTANCE
+    }
     const params = {
-      stateMachineArn: process.env.STATE_MACHINE_ARN
+      stateMachineArn: process.env.STATE_MACHINE_ARN,
+      input: JSON.stringify(input)
     };
     stepfunctions.startExecution(params, function (err, data) {
       if (err) {

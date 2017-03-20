@@ -27,7 +27,7 @@ const getBeanstalkStatus = (data) => {
 
 exports.handle = function (e, ctx, cb) {
   console.log('processing event: %j', e);
-  const data = { application: process.env.APPLICATION, environment: process.env.ENVIRONMENT };
+  const data = { application: e.application || process.env.APPLICATION, environment: e.environment || process.env.ENVIRONMENT };
   getBeanstalkStatus(data).then((status) => {
     cb(null, status);
   }).catch((error) => {

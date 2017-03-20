@@ -27,6 +27,9 @@ const getLastestTemplate = (data) => {
         console.log(err, err.stack);
         reject(err);
       } else {
+        const filtered = templates.filter((template) => {
+          return snapshot.DBSnapshotIdentifier.startsWith(data.rdsInstance);
+        });
         const sorted = templates.sort(compare);
         data.template = sorted[0];
         console.log(data.template);
@@ -60,7 +63,7 @@ const restoreBeanstalkEnvironment = (data) => {
 
 exports.handle = function (e, ctx, cb) {
   console.log('processing event: %j', e);
-  const data = { application: process.env.APPLICATION, environment: process.env.ENVIRONMENT };
+  const data = { application: e.application || process.env.APPLICATION, environment: e.environment || process.env.ENVIRONMENT };
   getLastestTemplate(data)
   .then(restoreBeanstalkEnvironment)
   .then((result) => {
