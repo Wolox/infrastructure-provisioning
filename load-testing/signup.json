@@ -1,0 +1,60 @@
+{
+    "ClientId": "4nj1kecn2bfobfejgvbkfan7lv",
+    "Username": "lt+@wolox.com.ar",
+    "Password": "Wolox1189#",
+    "UserAttributes": [{
+        "Name": "email",
+        "Value": "lt+@wolox.com.ar"
+    }, {
+        "Name": "custom:type",
+        "Value": "individual"
+    }, {
+        "Name": "custom:country",
+        "Value": "Argentina"
+    }, {
+        "Name": "custom:province",
+        "Value": "Ciudad Autónoma de Buenos Aires"
+    }, {
+        "Name": "custom:city",
+        "Value": "Ciudad Autónoma de Buenos Aires"
+    }, {
+        "Name": "custom:street",
+        "Value": "Moldes"
+    }, {
+        "Name": "custom:number",
+        "Value": "3879"
+    }, {
+        "Name": "custom:postal_code",
+        "Value": "1429"
+    }, {
+        "Name": "custom:phone_type",
+        "Value": "mobile"
+    }, {
+        "Name": "custom:phone",
+        "Value": "+541161566869"
+    }, {
+        "Name": "custom:cuit",
+        "Value": "23353647229"
+    }, {
+        "Name": "custom:others",
+        "Value": ""
+    }, {
+        "Name": "name",
+        "Value": "Load"
+    }, {
+        "Name": "custom:last_name",
+        "Value": "Testing"
+    }, {
+        "Name": "custom:birth_date",
+        "Value": "1990-11-10"
+    }, {
+        "Name": "custom:floor",
+        "Value": "2"
+    }, {
+        "Name": "custom:apartment",
+        "Value": "B"
+    }, {
+        "Name": "custom:pep",
+        "Value": "false"
+    }]
+}
