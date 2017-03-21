@@ -62,7 +62,7 @@ const beanstalkTemplateExists = (data) => {
   console.log(data);
   return new Promise((resolve, reject) => {
     const params = {
-      ApplicationNames: [process.env.APPLICATION]
+      ApplicationNames: [data.application || process.env.APPLICATION]
     };
     elasticbeanstalk.describeApplications(params, (err, applications) => {
       const templates = applications.Applications[0].ConfigurationTemplates;
@@ -86,7 +86,7 @@ const deleteBeanstalkTemplate = (data) => {
       return Promise.resolve(enhancedData);
     }
     const params = {
-      ApplicationName: process.env.APPLICATION,
+      ApplicationName: data.application || process.env.APPLICATION,
       TemplateName: data.beanstalkTemplate
     };
     elasticbeanstalk.deleteConfigurationTemplate(params, function (err, result) {

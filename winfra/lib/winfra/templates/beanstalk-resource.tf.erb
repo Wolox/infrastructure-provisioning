@@ -1,10 +1,11 @@
 variable "environment" {}
 variable "application_name" {}
-variable "has_vpc" {}
+variable "instance_type" {}
+<% if @has_vpc %>
 variable "vpc_id" {}
 variable "public_subnet_a" {}
 variable "public_subnet_b" {}
-variable "instance_type" {}
+<% end %>
 
 resource "aws_elastic_beanstalk_application" "stage" {
   name = "${var.application_name}"
@@ -17,28 +18,31 @@ resource "aws_elastic_beanstalk_environment" "stage" {
   solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.1 running Ruby 2.3 (Puma)"
   cname_prefix = "${var.application_name}-${var.environment}"
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "VPCId"
-    value     = "${var.has_vpc ? var.vpc_id : ""}"
-  }
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "Subnets"
-    value     = "${var.has_vpc ? "${var.public_subnet_a}, ${var.public_subnet_b}" : "" }"
-  }
+  <% if @has_vpc %>
+    setting {
+      namespace = "aws:ec2:vpc"
+      name      = "VPCId"
+      value     = "${var.vpc_id}"
+    }
 
-  setting {
-    namespace = "${var.has_vpc ? "aws:ec2:vpc" : ""}"
-    name      = "${var.has_vpc ? "AssociatePublicIpAddress" : ""}"
-    value     = "${var.has_vpc ? "true" : ""}"
-  }
+    setting {
+      namespace = "aws:ec2:vpc"
+      name      = "Subnets"
+      value     = "${var.public_subnet_a}, ${var.public_subnet_b}"
+    }
+
+    setting {
+      namespace = "aws:ec2:vpc"
+      name      = "AssociatePublicIpAddress"
+      value     = "true"
+    }
+  <% end %>
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
-    value     = "${aws_security_group.beanstalk.id}"
+    value     = "${aws_security_group.beanstalk.name}"
   }
 
   setting {
