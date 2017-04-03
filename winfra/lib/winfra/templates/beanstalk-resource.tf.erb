@@ -15,10 +15,10 @@ resource "aws_elastic_beanstalk_application" "stage" {
 resource "aws_elastic_beanstalk_environment" "stage" {
   name = "${var.application_name}-${var.environment}"
   application = "${aws_elastic_beanstalk_application.stage.name}"
-  solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.1 running Ruby 2.3 (Puma)"
+  solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.2 running Ruby 2.3 (Puma)"
   cname_prefix = "${var.application_name}-${var.environment}"
-
   <% if @has_vpc %>
+
     setting {
       namespace = "aws:ec2:vpc"
       name      = "VPCId"

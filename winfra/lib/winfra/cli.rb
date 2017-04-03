@@ -13,8 +13,8 @@ module Winfra
     method_option :debug, aliases: "-d", desc: "Enable debug logs", default: false, type: 'boolean'
     def public_website(domain)
       Winfra.logger.debug "Called public_website with path: #{options[:path]}, env: #{options[:env]}"
-      DirectorySetup.new.setup(options[:path], options[:env])
-      PublicWebsite::Builder.new(domain, options[:path], options[:env], options[:profile]).build
+      path = DirectorySetup.new.setup(options[:path], options[:env])
+      PublicWebsite::Builder.new(domain, path, options[:env], options[:profile]).build
     end
 
     desc "rails-stack app", "creates the infrastructure for a rails stack"
@@ -26,8 +26,8 @@ module Winfra
     def rails_stack(app_name)
       Winfra.init_logger(options[:debug])
       Winfra.logger.debug "Called public_website with path: #{options[:path]}, env: #{options[:env]}"
-      DirectorySetup.new.setup(options[:path], options[:env])
-      RailsStack::Builder.new(options[:path], options[:env], options[:vpc], app_name, options[:profile]).build
+      path = DirectorySetup.new.setup(options[:path], options[:env])
+      RailsStack::Builder.new(path, options[:env], options[:vpc], app_name, options[:profile]).build
     end
   end
 end

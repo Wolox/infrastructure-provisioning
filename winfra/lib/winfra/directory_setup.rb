@@ -7,6 +7,7 @@ module Winfra
       create_directory("#{path}/infrastructure/modules/")
       create_directory("#{path}/infrastructure/stages/")
       create_directory("#{path}/infrastructure/stages/#{env}/")
+      "#{path}/infrastructure"
     end
 
     private

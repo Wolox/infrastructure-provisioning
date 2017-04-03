@@ -18,11 +18,11 @@ module Winfra
       end
 
       def build
-        FileUtils.mkdir_p("#{path}/infrastructure/modules/s3")
-        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/infrastructure/modules/s3/s3.tf", binding)
-        Winfra.render_template(POLICY_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/#{domain}.tpl", binding)
-        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/s3-public-website.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/infrastructure/stages/#{env}/config.tf", binding)
+        FileUtils.mkdir_p("#{path}/modules/s3")
+        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/modules/s3/s3.tf", binding)
+        Winfra.render_template(POLICY_TEMPLATE, "#{@path}/stages/#{env}/#{domain}.tpl", binding)
+        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/stages/#{env}/s3-public-website.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/#{env}/config.tf", binding)
       end
     end
   end
