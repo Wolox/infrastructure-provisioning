@@ -28,6 +28,10 @@ const getBeanstalkVersion = (data) => {
 const deployVersion = (data) => {
   return new Promise((resolve, reject) => {
     console.log(data);
+    if (!data.applicationVersion) {
+      console.log('No application version found to deploy...');
+      return resolve(data);
+    }
     const params = {
       ApplicationName: data.application,
       EnvironmentName: data.environment,

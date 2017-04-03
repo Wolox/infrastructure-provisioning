@@ -27,8 +27,9 @@ const getLastestTemplate = (data) => {
         console.log(err, err.stack);
         reject(err);
       } else {
+        const prefix = `${data.application}-${data.environment}`;
         const filtered = templates.filter((template) => {
-          return snapshot.DBSnapshotIdentifier.startsWith(data.rdsInstance);
+          return template.startsWith(prefix);
         });
         const sorted = templates.sort(compare);
         data.template = sorted[0];
