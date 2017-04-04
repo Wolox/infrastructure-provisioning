@@ -1,0 +1,40 @@
+resource "aws_iam_role" "iam_for_lambda" {
+  name = "lambda-infrastructure"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {
+      "Service": "lambda.amazonaws.com"
+    },
+    "Action": "sts:AssumeRole"
+  }]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "rds" {
+  name       = "rds-policy"
+  roles      = ["{aws_iam_role.iam_for_lambda.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+}
+
+resource "aws_iam_policy_attachment" "beanstalk" {
+  name       = "beanstalk-policy"
+  roles      = ["{aws_iam_role.iam_for_lambda.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkFullAccess"
+}
+
+resource "aws_iam_policy_attachment" "ec2" {
+  name       = "e2-policy"
+  roles      = ["{aws_iam_role.iam_for_lambda.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+}
+
+resource "aws_iam_policy_attachment" "step-function" {
+  name       = "step-functions"
+  roles      = ["{aws_iam_role.iam_for_lambda.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess"
+}
