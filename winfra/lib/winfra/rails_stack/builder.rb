@@ -9,6 +9,7 @@ module Winfra
       BEANSTALK_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-resource.tf.erb')
       BEANSTALK_SG_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-sg.tf.erb')
       BEANSTALK_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-outputs.tf.erb')
+      BEANSTALK_ROLE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-role.tf.erb')
 
       RDS_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rds-resource.tf.erb')
       RDS_SG_TEMPLATE = Winfra.path_to('winfra/templates/rds-sg.tf.erb')
@@ -47,6 +48,7 @@ module Winfra
         FileUtils.mkdir_p(beanstalk_base)
         Winfra.render_template(BEANSTALK_RESOURCE_TEMPLATE, "#{beanstalk_base}/beanstalk.tf", binding)
         Winfra.render_template(BEANSTALK_SG_TEMPLATE, "#{beanstalk_base}/beanstalk-sg.tf", binding)
+        Winfra.render_template(BEANSTALK_ROLE_TEMPLATE, "#{beanstalk_base}/beanstalk-role.tf", binding)
         Winfra.render_template(BEANSTALK_OUTPUTS_TEMPLATE, "#{beanstalk_base}/outputs.tf", binding)
       end
 
