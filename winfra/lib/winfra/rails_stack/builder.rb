@@ -17,6 +17,7 @@ module Winfra
       VPC_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/vpc-outputs.tf.erb')
 
       MAIN_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack-main.tf.erb')
+      APP_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-application.tf.erb')
 
       def initialize(path, env, vpc, app_name, profile)
         @path = path
@@ -56,6 +57,8 @@ module Winfra
       end
 
       def generate_main_template
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/common/config.tf", binding)
+        Winfra.render_template(APP_TEMPLATE, "#{@path}/stages/common/beanstalk-app.tf", binding)
         Winfra.render_template(MAIN_TEMPLATE, "#{@path}/stages/#{env}/main.tf", binding)
         Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/#{env}/config.tf", binding)
       end

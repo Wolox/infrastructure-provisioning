@@ -7,14 +7,9 @@ variable "instance_type" {}
   variable "public_subnet_b" {}
 <% end %>
 
-resource "aws_elastic_beanstalk_application" "stage" {
-  name = "${var.application_name}"
-  description = "${var.application_name}-${var.environment}"
-}
-
-resource "aws_elastic_beanstalk_environment" "stage" {
+resource "aws_elastic_beanstalk_environment" "app" {
   name = "${var.application_name}-${var.environment}"
-  application = "${aws_elastic_beanstalk_application.stage.name}"
+  application = "<%= @app_name %>"
   solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.2 running Ruby 2.3 (Puma)"
   cname_prefix = "${var.application_name}-${var.environment}"
   <% if @has_vpc %>
