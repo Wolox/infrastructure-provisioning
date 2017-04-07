@@ -1,0 +1,11 @@
+output "db_url" {
+  value = "${aws_db_instance.stage.address}"
+}
+
+output "db_name" {
+  value = "${aws_db_instance.stage.db_name}"
+}
+
+output "db_user" {
+  value = "${aws_db_instance.stage.master_username}"
+}

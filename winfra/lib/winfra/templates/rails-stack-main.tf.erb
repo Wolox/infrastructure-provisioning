@@ -23,6 +23,10 @@ module "api" {
   application_name = "${var.application_name}"
   environment = "${var.environment}"
   instance_type = "t2.medium"
+  db_user = "${module.rds.db_user}"
+  db_name = "${module.rds.db_name}"
+  db_password = "${var.database_password}"
+  db_url = "${module.rds.db_url}"
 
   <% if @has_vpc %>
   vpc_id = "${module.vpc.id}"

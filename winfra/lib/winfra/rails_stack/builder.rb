@@ -12,6 +12,7 @@ module Winfra
       BEANSTALK_ROLE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-role.tf.erb')
 
       RDS_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rds-resource.tf.erb')
+      RDS_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/rds-outputs.tf.erb')
       RDS_SG_TEMPLATE = Winfra.path_to('winfra/templates/rds-sg.tf.erb')
 
       VPC_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/vpc-resource.tf.erb')
@@ -55,6 +56,7 @@ module Winfra
       def generate_rds_templates
         FileUtils.mkdir_p(rds_base)
         Winfra.render_template(RDS_RESOURCE_TEMPLATE, "#{rds_base}/rds.tf", binding)
+        Winfra.render_template(RDS_OUTPUTS_TEMPLATE, "#{rds_base}/outputs.tf", binding)
         Winfra.render_template(RDS_SG_TEMPLATE, "#{rds_base}/rds-sg.tf", binding)
       end
 

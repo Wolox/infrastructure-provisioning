@@ -19,6 +19,7 @@ resource "aws_db_instance" "stage" {
   name                   = "${replace("${var.application_name}", "-", "_")}"
   username               = "${replace("${var.application_name}", "-", "_")}"
   password               = "${var.database_password}"
+  skip_final_snapshot    = true
   vpc_security_group_ids = ["${aws_security_group.rds.id}"]
   <% if @has_vpc %>
   db_subnet_group_name   = "${aws_db_subnet_group.stage.id}"

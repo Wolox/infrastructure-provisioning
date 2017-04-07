@@ -1,6 +1,12 @@
+<% require 'digest' %>
+<% require 'securerandom' %>
 variable "environment" {}
 variable "application_name" {}
 variable "instance_type" {}
+variable "db_user" {}
+variable "db_name" {}
+variable "db_password" {}
+variable "db_url" {}
 <% if @has_vpc %>
   variable "vpc_id" {}
   variable "public_subnet_a" {}
@@ -48,6 +54,18 @@ resource "aws_elastic_beanstalk_environment" "app" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
-    value     = "${aws_iam_role.<%= @app_name %>-<%= @env %>.arn}"
+    value     = "${aws_iam_instance_profile.<%= @app_name %>.arn}"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "DATABASE_URL"
+    value = "postgres://${var.db_user}:${var.db_password}@${var.db_url}:5432/${var.db_name}"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name = "SECRET_KEY_BASE"
+    value = "<%= Digest::SHA512.hexdigest(SecureRandom.uuid) %>"
   }
 }
