@@ -3,9 +3,9 @@ output "db_url" {
 }
 
 output "db_name" {
-  value = "${aws_db_instance.stage.db_name}"
+  value = "${aws_db_instance.stage.name}"
 }
 
 output "db_user" {
-  value = "${aws_db_instance.stage.master_username}"
+  value = "${aws_db_instance.stage.username}"
 }
