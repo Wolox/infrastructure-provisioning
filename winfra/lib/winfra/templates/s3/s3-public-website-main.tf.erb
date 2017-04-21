@@ -8,9 +8,4 @@ module "s3" {
   bucket_name = "${var.bucket_name}"
   acl = "public-read"
   has_policy = true
-
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
 }
