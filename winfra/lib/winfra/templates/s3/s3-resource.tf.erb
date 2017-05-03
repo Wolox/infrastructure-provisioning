@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "b" {
   },
   "Redirect": {
     "HostName": "${var.bucket_name}",
-    "ReplaceKeyPrefixWith":"#"
+    "ReplaceKeyPrefixWith":"#!/"
   }
 }]
 EOF
