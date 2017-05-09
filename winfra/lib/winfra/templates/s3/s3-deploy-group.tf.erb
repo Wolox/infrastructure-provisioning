@@ -1,9 +1,9 @@
 resource "aws_iam_group" "developers" {
-  name = "${bucket_name}-deploy"
+  name = "${var.bucket_name}-deploy"
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "${bucket_name}-deploy"
+  name        = "${var.bucket_name}-deploy"
   description = "Deploy policy"
 
   policy = <<EOF
@@ -16,8 +16,8 @@ resource "aws_iam_policy" "policy" {
                 "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::${bucket_name}/*",
-                "arn:aws:s3:::${bucket_name}/*"
+                "arn:aws:s3:::${var.bucket_name}/*",
+                "arn:aws:s3:::${var.bucket_name}/*"
             ]
         },
         {
