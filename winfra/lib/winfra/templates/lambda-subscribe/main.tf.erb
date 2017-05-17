@@ -1,0 +1,9 @@
+variable "region" {
+  default     = "us-east-1"
+  description = "Bucket name"
+}
+
+module "lambda-subscribe" {
+  source = "../../modules/lambda-subscribe"
+  region = "${var.region}"
+}

@@ -26,6 +26,11 @@ module Winfra
     File.open(dest_path, 'w') { |file| file.write(string) }
   end
 
+  def self.copy_file(src, dest)
+    Winfra.logger.debug "Copying file from #{src} to #{dest}"
+    FileUtils.copy(src, dest)
+  end
+
   def self.run(args)
     Cli.start(args)
   end

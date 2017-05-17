@@ -1,0 +1,14 @@
+# Variables
+variable "region" {}
+data "aws_caller_identity" "current" {}
+
+# API Gateway
+resource "aws_api_gateway_rest_api" "api" {
+  name = "subscription-api"
+}
+
+resource "aws_api_gateway_resource" "SubscriptionResource" {
+  rest_api_id = "${aws_api_gateway_rest_api.api.id}"
+  parent_id   = "${aws_api_gateway_rest_api.api.root_resource_id}"
+  path_part   = "subscribers"
+}
