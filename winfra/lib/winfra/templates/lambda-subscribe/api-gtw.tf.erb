@@ -12,3 +12,10 @@ resource "aws_api_gateway_resource" "SubscriptionResource" {
   parent_id   = "${aws_api_gateway_rest_api.api.root_resource_id}"
   path_part   = "subscribers"
 }
+
+module "SubscriptionResourceCors" {
+  source = "github.com/mdesanti/terraform-api-gateway-cors-module"
+  resource_name = "SubscriptionResource"
+  resource_id = "${aws_api_gateway_resource.SubscriptionResource.id}"
+  rest_api_id = "${aws_api_gateway_rest_api.api.id}"
+}

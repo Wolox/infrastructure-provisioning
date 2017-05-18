@@ -31,6 +31,12 @@ module Winfra
     FileUtils.copy(src, dest)
   end
 
+  def self.copy_dir(src, dest)
+    FileUtils.mkdir_p(File.dirname(dest))
+    Winfra.logger.debug "Copying dir from #{src} to #{dest}"
+    FileUtils.copy_entry(src, dest)
+  end
+
   def self.run(args)
     Cli.start(args)
   end

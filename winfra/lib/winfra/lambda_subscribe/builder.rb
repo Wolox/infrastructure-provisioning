@@ -54,11 +54,11 @@ module Winfra
         @lambda_function_name = "subscribe-#{http_method.downcase}"
         create_method(http_method)
         create_lambda_function(@lambda_function_name)
-        enable_integration
+        enable_integration(http_method)
       end
 
-      def enable_integration
-        Winfra.render_template(INTEGRATION_TEMPLATE, "#{@modules_dest_path}/api-gtw-integration.tf", binding)
+      def enable_integration(http_method)
+        Winfra.render_template(INTEGRATION_TEMPLATE, "#{@modules_dest_path}/api-gtw-integration-#{http_method}.tf", binding)
       end
 
       def create_method(http_method)
@@ -70,8 +70,10 @@ module Winfra
         @lambda_function_file = "#{lambda_function_name}.zip"
         dest_file_name = "#{@modules_dest_path}/#{lambda_function_name}.tf"
         Winfra.render_template(LAMBDA_TEMPLATE, dest_file_name, binding)
-        zip_location = Winfra.path_to("#{BASE_PATH}/#{@lambda_function_file}")
-        Winfra.copy_file(zip_location, "#{@dest_base_path}/#{@lambda_function_file}")
+        node_modules_directory = Winfra.path_to("#{BASE_PATH}/node_modules")
+        function_location = Winfra.path_to("#{BASE_PATH}/#{lambda_function_name}.js")
+        Winfra.copy_dir(node_modules_directory, "#{@dest_base_path}/#{lambda_function_name}/node_modules")
+        Winfra.copy_file(function_location, "#{@dest_base_path}/#{lambda_function_name}/#{lambda_function_name}.js")
       end
     end
   end
