@@ -22,13 +22,13 @@ const executeLambaFunction = (config) => {
   });
 };
 
-const stopBeastalk = (config) => {
-  config.function_name = 'stack-awake-sleep_stop-beanstalk';
+const startBeastalk = (config) => {
+  config.function_name = 'stack-awake-sleep_start-beanstalk';
   return executeLambaFunction(config);
 };
 
-const stopRds = (config) => {
-  config.function_name = 'stack-awake-sleep_stop-rds';
+const startRds = (config) => {
+  config.function_name = 'stack-awake-sleep_start-rds';
   return executeLambaFunction(config);
 };
 
@@ -38,5 +38,5 @@ exports.handle = (event, context, callback) => {
   const db_instance_identifier = event.db_instance_identifier || process.env.DB_INSTANCE_IDENTIFIER;
   const params = { environment_name, db_instance_identifier };
 
-  return stopBeastalk(params).then(stopRds);
+  return startBeastalk(params).then(startRds);
 };
