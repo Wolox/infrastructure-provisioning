@@ -5,6 +5,33 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ region: 'us-east-1' });
 const stream = require('stream');
+const request = require('request-promise-native');
+
+const deletePreviousData = (data) => {
+  console.log('Deleting previous data');
+  const options = {
+    method: 'POST',
+    uri: `${process.env.ELASTICSEARCH_URL}/aws-billing/_delete_by_query`,
+    json: true,
+    body: {
+      query: {
+        bool: {
+          must: [
+            {
+              match: {
+                _type: data.bucket.split('-')[0]
+              }
+            }
+          ]
+        }
+      }
+    }
+  };
+
+  return request.post(options).then((response) => {
+    return data;
+  });
+};
 
 const getFileFroms3 = (bucket, key) => {
   return new Promise((resolve, reject) => {
@@ -59,8 +86,8 @@ exports.handler = (event, context, callback) => {
   const key = event.Records[0].s3.object.key;
   const bucket = event.Records[0].s3.bucket.name;
 
-  return getFileFroms3(bucket, key).then(processAndUpload)
+  return getFileFroms3(bucket, key).then(deletePreviousData).then(processAndUpload)
   .catch((err) => {
-    console.log(err);
+    console.log(JSON.stringify(err));
   });
 };
