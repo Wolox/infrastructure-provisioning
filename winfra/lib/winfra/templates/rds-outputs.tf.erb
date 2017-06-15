@@ -1,11 +1,11 @@
 output "db_url" {
-  value = "${aws_db_instance.stage.address}"
+  value = "${aws_db_instance.<%= @app_name %>-<%= @env %>.address}"
 }
 
 output "db_name" {
-  value = "${aws_db_instance.stage.name}"
+  value = "${aws_db_instance.<%= @app_name %>-<%= @env %>.name}"
 }
 
 output "db_user" {
-  value = "${aws_db_instance.stage.username}"
+  value = "${aws_db_instance.<%= @app_name %>-<%= @env %>.username}"
 }

@@ -26,8 +26,8 @@ module Winfra
         @env = env
         @has_vpc = vpc
         @app_name = app_name
-        @beanstalk_base = "#{path}/modules/beanstalk"
-        @rds_base = "#{path}/modules/rds"
+        @beanstalk_base = "#{path}/stages/#{@env}/beanstalk"
+        @rds_base = "#{path}/stages/#{@env}/rds"
         @vpc_base = "#{path}/modules/vpc"
         @profile = profile
       end
@@ -61,10 +61,9 @@ module Winfra
       end
 
       def generate_main_template
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/common/config.tf", binding)
-        Winfra.render_template(APP_TEMPLATE, "#{@path}/stages/common/beanstalk-app.tf", binding)
-        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/stages/#{env}/main.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/#{env}/config.tf", binding)
+        Winfra.render_template(APP_TEMPLATE, "#{@path}/stages/beanstalk-#{@env}.tf", binding)
+        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/stages/main-#{@env}.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/config.tf", binding)
       end
     end
   end

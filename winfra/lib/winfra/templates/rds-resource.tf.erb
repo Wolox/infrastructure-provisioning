@@ -10,7 +10,7 @@ variable "private_subnet_a" {}
 variable "private_subnet_b" {}
 <% end %>
 
-resource "aws_db_instance" "stage" {
+resource "aws_db_instance" "<%= @app_name %>-<%= @env %>" {
   identifier             = "${var.application_name}-${var.environment}"
   allocated_storage      = "${var.storage}"
   engine                 = "${var.engine}"
@@ -20,14 +20,14 @@ resource "aws_db_instance" "stage" {
   username               = "${replace("${var.application_name}", "-", "_")}"
   password               = "${var.database_password}"
   skip_final_snapshot    = true
-  vpc_security_group_ids = ["${aws_security_group.rds.id}"]
+  vpc_security_group_ids = ["${aws_security_group.<%= @app_name %>-<%= @env %>.id}"]
   <% if @has_vpc %>
-  db_subnet_group_name   = "${aws_db_subnet_group.stage.id}"
+  db_subnet_group_name   = "${aws_db_subnet_group.<%= @app_name %>-<%= @env %>.id}"
   <% end %>
 }
 
 <% if @has_vpc %>
-resource "aws_db_subnet_group" "stage" {
+resource "aws_db_subnet_group" "<%= @app_name %>-<%= @env %>" {
   name        = "rds-${var.application_name}-${var.environment}"
   subnet_ids  = ["${var.private_subnet_a}", "${var.private_subnet_b}"]
 }

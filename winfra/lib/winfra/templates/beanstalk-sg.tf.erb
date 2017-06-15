@@ -1,4 +1,4 @@
-resource "aws_security_group" "beanstalk" {
+resource "aws_security_group" "<%= @app_name %>-<%= @env %>" {
   name        = "beanstalk-${var.environment}-sg"
   description = "Beanstalk EC2 Security Group"
   <% if @has_vpc %>

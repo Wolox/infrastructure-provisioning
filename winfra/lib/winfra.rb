@@ -28,6 +28,7 @@ module Winfra
 
   def self.copy_file(src, dest)
     Winfra.logger.debug "Copying file from #{src} to #{dest}"
+    return if File.exist?(dest)
     FileUtils.copy(src, dest)
   end
 

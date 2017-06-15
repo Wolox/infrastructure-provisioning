@@ -1,14 +1,4 @@
-variable "environment" {
-  default     = "<%= @env %>"
-  description = "Identifier for Beanstalk Application"
-}
-
-variable "application_name" {
-  default     = "<%= @app_name %>"
-  description = "Identifier for Beanstalk Application"
-}
-
-resource "aws_elastic_beanstalk_application" "app" {
+resource "aws_elastic_beanstalk_application" "<%= @app_name %>" {
   name = "${var.application_name}"
-  description = "${var.application_name}-${var.environment}"
+  description = "${var.application_name}"
 }

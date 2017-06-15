@@ -1,4 +1,4 @@
-resource "aws_iam_role" "<%= @app_name %>" {
+resource "aws_iam_role" "<%= @app_name %>-<%= @env %>" {
   name = "${var.application_name}-${var.environment}"
 
   assume_role_policy = <<EOF
@@ -18,22 +18,22 @@ resource "aws_iam_role" "<%= @app_name %>" {
 EOF
 }
 
-resource "aws_iam_instance_profile" "<%= @app_name %>" {
+resource "aws_iam_instance_profile" "<%= @app_name %>-<%= @env %>" {
   name  = "${var.application_name}-${var.environment}"
-  roles = ["${aws_iam_role.<%= @app_name %>.name}"]
+  roles = ["${aws_iam_role.<%= @app_name %>-<%= @env %>.name}"]
 }
 
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {
-    role       = "${aws_iam_role.<%= @app_name %>.name}"
+    role       = "${aws_iam_role.<%= @app_name %>-<%= @env %>.name}"
     policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
 }
 
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkMulticontainerDocker" {
-    role       = "${aws_iam_role.<%= @app_name %>.name}"
+    role       = "${aws_iam_role.<%= @app_name %>-<%= @env %>.name}"
     policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
 
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWorkerTier" {
-    role       = "${aws_iam_role.<%= @app_name %>.name}"
+    role       = "${aws_iam_role.<%= @app_name %>-<%= @env %>.name}"
     policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
 }

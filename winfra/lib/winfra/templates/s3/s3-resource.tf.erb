@@ -1,21 +1,23 @@
 variable "bucket_name" {}
 variable "acl" {}
-variable "has_policy" {}
 
-data "template_file" "init" {
+<% if @public_website %>
+data "template_file" "<%= @sanitized_domain %>" {
     template = "${file("${var.bucket_name}.tpl")}"
 
     vars {
         bucket_name = "${var.bucket_name}"
     }
 }
+<% end %>
 
-resource "aws_s3_bucket" "b" {
+resource "aws_s3_bucket" "<%= @sanitized_domain %>" {
     bucket = "${var.bucket_name}"
     acl = "${var.acl}"
-    policy = "${var.has_policy ? data.template_file.init.rendered : ""}"
 
   <% if @public_website %>
+    policy = "${data.template_file.<%= @sanitized_domain %>.rendered}"
+
     cors_rule {
       allowed_headers = ["Authorization"]
       allowed_methods = ["GET"]
@@ -23,7 +25,6 @@ resource "aws_s3_bucket" "b" {
       max_age_seconds = 3000
     }
 
-  <% end %>
     website {
       index_document = "index.html"
       error_document = "error.html"
@@ -40,4 +41,6 @@ resource "aws_s3_bucket" "b" {
 }]
 EOF
 }
+
+  <% end %>
 }

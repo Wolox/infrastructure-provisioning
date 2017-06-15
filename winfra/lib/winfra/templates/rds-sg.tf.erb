@@ -3,7 +3,7 @@ variable "vpc_id" {}
 <% end %>
 variable "beanstalk_sg_id" {}
 
-resource "aws_security_group" "rds" {
+resource "aws_security_group" "<%= @app_name %>-<%= @env %>" {
   name        = "rds-${var.environment}-sg"
   description = "Allow all inbound traffic"
   <% if @has_vpc %>

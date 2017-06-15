@@ -1,8 +1,3 @@
-variable "environment" {
-  default     = "<%= @env %>"
-  description = "Identifier for Beanstalk Application"
-}
-
 variable "application_name" {
   default     = "<%= @app_name %>"
   description = "Identifier for Beanstalk Application"
@@ -14,14 +9,14 @@ variable "database_password" {
 
 <% if @has_vpc %>
 module "vpc" {
-  source = "../../modules/vpc"
+  source = "./<%= @env %>/vpc"
 }
 <% end %>
 
 module "api" {
-  source = "../../modules/beanstalk"
+  source = "./<%= @env %>/beanstalk"
   application_name = "${var.application_name}"
-  environment = "${var.environment}"
+  environment = "<%= @env %>"
   instance_type = "t2.medium"
   db_user = "${module.rds.db_user}"
   db_name = "${module.rds.db_name}"
@@ -36,9 +31,9 @@ module "api" {
 }
 
 module "rds" {
-  source = "../../modules/rds"
+  source = "./<%= @env %>/rds"
   application_name = "${var.application_name}"
-  environment = "${var.environment}"
+  environment = "<%= @env %>"
   engine = "postgres"
   engine_version = "9.5.4"
   storage = "10"

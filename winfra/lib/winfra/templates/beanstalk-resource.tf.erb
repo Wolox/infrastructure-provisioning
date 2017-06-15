@@ -13,7 +13,7 @@ variable "db_url" {}
   variable "public_subnet_b" {}
 <% end %>
 
-resource "aws_elastic_beanstalk_environment" "app" {
+resource "aws_elastic_beanstalk_environment" "<%= @app_name %>-<%= @env %>" {
   name = "${var.application_name}-${var.environment}"
   application = "<%= @app_name %>"
   solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.2 running Ruby 2.3 (Puma)"
@@ -42,7 +42,7 @@ resource "aws_elastic_beanstalk_environment" "app" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
-    value     = "${aws_security_group.beanstalk.name}"
+    value     = "${aws_security_group.<%= @app_name %>-<%= @env %>.name}"
   }
 
   setting {
@@ -54,7 +54,7 @@ resource "aws_elastic_beanstalk_environment" "app" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
-    value     = "${aws_iam_instance_profile.<%= @app_name %>.arn}"
+    value     = "${aws_iam_instance_profile.<%= @app_name %>-<%= @env %>.arn}"
   }
 
   setting {
