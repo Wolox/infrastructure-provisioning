@@ -6,20 +6,20 @@ module Winfra
       attr_reader :path, :env, :public_website, :app_name, :beanstalk_base, :rds_base, :has_vpc,
                   :vpc_base
 
-      BEANSTALK_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-resource.tf.erb')
-      BEANSTALK_SG_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-sg.tf.erb')
-      BEANSTALK_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-outputs.tf.erb')
-      BEANSTALK_ROLE_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-role.tf.erb')
+      BEANSTALK_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-resource.tf.erb')
+      BEANSTALK_SG_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-sg.tf.erb')
+      BEANSTALK_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-outputs.tf.erb')
+      BEANSTALK_ROLE_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-role.tf.erb')
 
-      RDS_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rds-resource.tf.erb')
-      RDS_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/rds-outputs.tf.erb')
-      RDS_SG_TEMPLATE = Winfra.path_to('winfra/templates/rds-sg.tf.erb')
+      RDS_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/rds-resource.tf.erb')
+      RDS_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/rds-outputs.tf.erb')
+      RDS_SG_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/rds-sg.tf.erb')
 
-      VPC_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/vpc-resource.tf.erb')
-      VPC_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/vpc-outputs.tf.erb')
+      VPC_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/vpc-resource.tf.erb')
+      VPC_OUTPUTS_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/vpc-outputs.tf.erb')
 
-      MAIN_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack-main.tf.erb')
-      APP_TEMPLATE = Winfra.path_to('winfra/templates/beanstalk-application.tf.erb')
+      MAIN_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/rails-stack-main.tf.erb')
+      APP_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-application.tf.erb')
 
       def initialize(path, env, vpc, app_name, profile)
         @path = path
