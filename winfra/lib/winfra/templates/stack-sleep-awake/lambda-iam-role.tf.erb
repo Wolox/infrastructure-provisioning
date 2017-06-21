@@ -1,0 +1,83 @@
+data "aws_caller_identity" "current" {}
+
+resource "aws_iam_role_policy" "stack-sleep-awake" {
+  name = "stack-sleep-awake-policy"
+  role = "${aws_iam_role.stack-sleep-awake-role.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+          "rds:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Action": "ec2:*",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "cloudwatch:*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "autoscaling:*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "autoscaling:*",
+      "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "elasticbeanstalk:*"
+        ],
+        "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+
+resource "aws_iam_role" "stack-sleep-awake-role" {
+  name = "stack-sleep-awake-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+POLICY
+}

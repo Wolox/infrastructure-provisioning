@@ -3,6 +3,7 @@ require 'winfra/directory_setup'
 require 'winfra/s3/builder'
 require 'winfra/rails_stack/builder'
 require 'winfra/lambda_subscribe/builder'
+require 'winfra/stack_sleep_awake/builder'
 
 module Winfra
   class Cli < Thor
@@ -41,6 +42,17 @@ module Winfra
       Winfra.logger.debug "Called lambda_subscribe with path: #{options[:path]}, env: #{options[:env]}"
       path = DirectorySetup.new.setup(options[:path], options[:env])
       LambdaSubscribe::Builder.new(path, name, options[:env], options[:profile]).build
+    end
+
+    desc "stack-sleep-awake", "Creates necessary infra to put a rails stack to sleep"
+    method_option :profile, desc: 'The aws profile to use', required: true
+    method_option :path, aliases: "-p", desc: "The path where the files should be created", required: true
+    method_option :env, aliases: "-e", desc: "The environment for which this templates will be created for", default: 'dev'
+    method_option :debug, aliases: "-d", desc: "Enable debug logs", default: false, type: 'boolean'
+    def stack_sleep_awake
+      Winfra.logger.debug "Called stack_sleep_awake with path: #{options[:path]}, env: #{options[:env]}"
+      path = DirectorySetup.new.setup(options[:path], options[:env])
+      StackSleepAwake::Builder.new(path, options).build
     end
   end
 end
