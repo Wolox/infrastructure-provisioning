@@ -1,6 +1,15 @@
+resource "null_resource" "<%= @lambda_function_name%>" {
+  provisioner "local-exec" {
+    command = "cd <%= @modules_dest_path %>/<%= @lambda_function_name %> && npm install && cd -"
+  }
+  triggers = {
+    policy_sha1 = "${sha1(file("<%= @modules_dest_path %>/<%= @lambda_function_name %>/package.json"))}"
+  }
+}
+
 data "archive_file" "<%= @lambda_function_name%>" {
     type        = "zip"
-    source_dir  = "./lambda-subscribe/<%= @name %>/<%= @lambda_function_name %>"
+    source_dir  = "<%= @modules_dest_path %>/<%= @lambda_function_name %>"
     output_path = "<%= @lambda_function_file %>"
 }
 

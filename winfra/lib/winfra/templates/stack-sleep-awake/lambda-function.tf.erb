@@ -1,7 +1,18 @@
+resource "null_resource" "<%= @lambda_function_name%>" {
+  provisioner "local-exec" {
+    command = "cd ./stack-sleep-awake/<%= @lambda_function_name %> && npm install && cd -"
+  }
+  triggers = {
+    policy_sha1 = "${sha1(file("./stack-sleep-awake/<%= @lambda_function_name %>/package.json"))}"
+  }
+}
+
+
 data "archive_file" "<%= @lambda_function_name%>" {
     type        = "zip"
     source_dir  = "./stack-sleep-awake/<%= @lambda_function_name %>"
     output_path = "<%= @lambda_function_file %>"
+    depends_on = ["null_resource.<%= @lambda_function_name%>"]
 }
 
 resource "aws_lambda_function" "<%= @lambda_function_name %>" {
