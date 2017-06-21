@@ -4,6 +4,7 @@ require 'winfra/s3/builder'
 require 'winfra/rails_stack/builder'
 require 'winfra/lambda_subscribe/builder'
 require 'winfra/stack_sleep_awake/builder'
+require 'winfra/billing/builder'
 
 module Winfra
   class Cli < Thor
@@ -53,6 +54,16 @@ module Winfra
       Winfra.logger.debug "Called stack_sleep_awake with path: #{options[:path]}, env: #{options[:env]}"
       path = DirectorySetup.new.setup(options[:path], options[:env])
       StackSleepAwake::Builder.new(path, options).build
+    end
+
+    desc "billing-parser bucket-name", "Creates a lambda function that parses billing reports"
+    method_option :profile, desc: 'The aws profile to use', required: true
+    method_option :path, aliases: "-p", desc: "The path where the files should be created", required: true
+    method_option :debug, aliases: "-d", desc: "Enable debug logs", default: false, type: 'boolean'
+    def billing_parser(bucket_name)
+      Winfra.logger.debug "Called stack_sleep_awake with path: #{options[:path]}, env: #{options[:env]}"
+      path = DirectorySetup.new.setup(options[:path], options[:env])
+      Billing::Builder.new(path, bucket_name, options).build
     end
   end
 end

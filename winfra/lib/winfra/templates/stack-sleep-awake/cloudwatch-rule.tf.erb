@@ -7,5 +7,5 @@ resource "aws_cloudwatch_event_target" "<%= @event_name %>" {
 
 resource "aws_cloudwatch_event_rule" "<%= @rule_name %>" {
   name        = "<%= @rule_name %>"
-  schedule_expression = "<%= @cron_expression %>"
+  schedule_expression = "cron(<%= @cron_expression %>)"
 }

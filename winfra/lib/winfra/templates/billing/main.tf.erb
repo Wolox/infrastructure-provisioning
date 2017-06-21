@@ -1,0 +1,9 @@
+variable "billing_bucket_name" {
+  default     = "<%= @bucket_name %>"
+  description = "Bucket name"
+}
+
+module "billing_parser" {
+  source = "./billing"
+  bucket_name = "${var.billing_bucket_name}"
+}
