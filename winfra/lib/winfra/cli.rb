@@ -32,15 +32,15 @@ module Winfra
       RailsStack::Builder.new(path, options[:env], options[:vpc], app_name, options[:profile]).build
     end
 
-    desc "lambda-subscribe", "creates an s3 bucket for a public website"
+    desc "lambda-subscribe name", "creates an endpoint in AWS to store user information"
     method_option :profile, desc: 'The aws profile to use', required: true
     method_option :path, aliases: "-p", desc: "The path where the files should be created", required: true
     method_option :env, aliases: "-e", desc: "The environment for which this templates will be created for", default: 'dev'
     method_option :debug, aliases: "-d", desc: "Enable debug logs", default: false, type: 'boolean'
-    def lambda_subscribe
+    def lambda_subscribe(name)
       Winfra.logger.debug "Called lambda_subscribe with path: #{options[:path]}, env: #{options[:env]}"
       path = DirectorySetup.new.setup(options[:path], options[:env])
-      LambdaSubscribe::Builder.new(path, options[:env], options[:profile]).build
+      LambdaSubscribe::Builder.new(path, name, options[:env], options[:profile]).build
     end
   end
 end

@@ -20,12 +20,12 @@ module Winfra
       end
 
       def build
-        FileUtils.mkdir_p("#{path}/stages/#{env}/s3/#{domain}")
-        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/stages/#{env}/s3/#{domain}/s3-deploy-group.tf", binding)
-        Winfra.render_template(DEPLOY_GROUP_TEMPLATE, "#{@path}/stages/#{env}/s3/#{domain}/s3.tf", binding)
-        Winfra.render_template(POLICY_TEMPLATE, "#{@path}/stages/#{domain}.tpl", binding)
-        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/stages/s3-#{@domain}-#{@env}.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/stages/config.tf", binding)
+        FileUtils.mkdir_p("#{path}/#{env}/s3/#{domain}")
+        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/#{env}/s3/#{domain}/s3-deploy-group.tf", binding)
+        Winfra.render_template(DEPLOY_GROUP_TEMPLATE, "#{@path}/#{env}/s3/#{domain}/s3.tf", binding)
+        Winfra.render_template(POLICY_TEMPLATE, "#{@path}/#{domain}.tpl", binding)
+        Winfra.render_template(MAIN_TEMPLATE, "#{@path}/s3-#{@domain}-#{@env}.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding)
       end
     end
   end

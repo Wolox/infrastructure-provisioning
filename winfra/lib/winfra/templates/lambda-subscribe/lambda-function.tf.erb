@@ -1,6 +1,6 @@
 data "archive_file" "<%= @lambda_function_name%>" {
     type        = "zip"
-    source_dir  = "<%= @lambda_function_name %>"
+    source_dir  = "./lambda-subscribe/<%= @name %>/<%= @lambda_function_name %>"
     output_path = "<%= @lambda_function_file %>"
 }
 

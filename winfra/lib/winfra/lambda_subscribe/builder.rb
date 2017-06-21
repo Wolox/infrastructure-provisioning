@@ -15,22 +15,23 @@ module Winfra
       IAM_TEMPLATE = Winfra.path_to("#{BASE_PATH}/lambda-iam-role.tf.erb")
       MAIN_TEMPLATE = Winfra.path_to("#{BASE_PATH}/main.tf.erb")
 
-      def initialize(path, env, profile)
+      def initialize(path, name, env, profile)
         @path = path
         @env = env
+        @name = name
         @profile = profile
-        @modules_dest_path = "#{@path}/modules/lambda-subscribe"
-        @dest_base_path = "#{path}/stages/#{env}"
+        @modules_dest_path = "#{@path}/lambda-subscribe/#{@name}"
+        @dest_base_path = path
+        FileUtils.mkdir_p(@modules_dest_path)
       end
 
       def build
-        FileUtils.mkdir_p("#{path}/modules/lambda-subscribe")
         create_api
         create_db
         create_iam_role
         enable_method('post')
         enable_method('get')
-        Winfra.render_template(MAIN_TEMPLATE, "#{@dest_base_path}/lambda-subscribe.tf", binding)
+        Winfra.render_template(MAIN_TEMPLATE, "#{@dest_base_path}/#{@name}-lambda-subscribe.tf", binding)
         Winfra.render_template(CONFIG_TEMPLATE, "#{@dest_base_path}/config.tf", binding)
       end
 
@@ -72,8 +73,8 @@ module Winfra
         Winfra.render_template(LAMBDA_TEMPLATE, dest_file_name, binding)
         node_modules_directory = Winfra.path_to("#{BASE_PATH}/node_modules")
         function_location = Winfra.path_to("#{BASE_PATH}/#{lambda_function_name}.js")
-        Winfra.copy_dir(node_modules_directory, "#{@dest_base_path}/#{lambda_function_name}/node_modules")
-        Winfra.copy_file(function_location, "#{@dest_base_path}/#{lambda_function_name}/#{lambda_function_name}.js")
+        Winfra.copy_dir(node_modules_directory, "#{@modules_dest_path}/#{lambda_function_name}/node_modules")
+        Winfra.copy_file(function_location, "#{@modules_dest_path}/#{lambda_function_name}/#{lambda_function_name}.js")
       end
     end
   end

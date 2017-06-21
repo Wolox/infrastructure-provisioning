@@ -16,7 +16,7 @@ variable "db_url" {}
 resource "aws_elastic_beanstalk_environment" "<%= @app_name %>-<%= @env %>" {
   name = "${var.application_name}-${var.environment}"
   application = "<%= @app_name %>"
-  solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.2 running Ruby 2.3 (Puma)"
+  solution_stack_name = "64bit Amazon Linux 2017.03 v2.4.0 running Ruby 2.3 (Puma)"
   cname_prefix = "${var.application_name}-${var.environment}"
   <% if @has_vpc %>
 

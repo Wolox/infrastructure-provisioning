@@ -3,7 +3,7 @@ variable "application_name" {
   description = "Identifier for Beanstalk Application"
 }
 
-variable "database_password" {
+variable "<%= @env %>_database_password" {
   description = "RDS Master user password"
 }
 
@@ -13,7 +13,7 @@ module "vpc" {
 }
 <% end %>
 
-module "api" {
+module "<%= @env %>_api" {
   source = "./<%= @env %>/beanstalk"
   application_name = "${var.application_name}"
   environment = "<%= @env %>"
@@ -30,7 +30,7 @@ module "api" {
   <% end %>
 }
 
-module "rds" {
+module "<%= @env %>_rds" {
   source = "./<%= @env %>/rds"
   application_name = "${var.application_name}"
   environment = "<%= @env %>"
@@ -38,7 +38,7 @@ module "rds" {
   engine_version = "9.5.4"
   storage = "10"
   instance_class = "db.t2.micro"
-  database_password = "${var.database_password}"
+  database_password = "${var.<%= @env %>_database_password}"
   beanstalk_sg_id = "${module.api.beanstalk_sg_id}"
 
   <% if @has_vpc %>

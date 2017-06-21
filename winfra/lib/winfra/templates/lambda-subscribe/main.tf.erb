@@ -4,6 +4,6 @@ variable "region" {
 }
 
 module "lambda-subscribe" {
-  source = "../../modules/lambda-subscribe"
+  source = "./lambda-subscribe"
   region = "${var.region}"
 }
