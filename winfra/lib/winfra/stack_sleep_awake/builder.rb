@@ -59,7 +59,7 @@ module Winfra
         function_location = Winfra.path_to("winfra/templates/stack-sleep-awake/#{function_name}.js")
         Winfra.copy_dir(NODE_MODULES_DIRECTORY, "#{@dest_path}/#{function_name}/node_modules")
         Winfra.copy_file(function_location, "#{@dest_path}/#{function_name}/index.js")
-        Winfra.render_template(LAMBDA_TEMPLATE, "#{@path}/#{function_name}-lambda.tf", binding)
+        Winfra.render_template(LAMBDA_TEMPLATE, "#{@path}/lambda-functions.tf", binding)
       end
     end
   end

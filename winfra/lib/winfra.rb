@@ -23,7 +23,7 @@ module Winfra
     template = File.read(template_path)
     string = ERB.new(template).result(a_binding)
     Winfra.logger.debug "Saving template to #{dest_path}"
-    File.open(dest_path, 'w') { |file| file.write(string) }
+    File.open(dest_path, 'a') { |file| file.write(string) }
   end
 
   def self.copy_file(src, dest)

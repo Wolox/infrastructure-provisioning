@@ -45,27 +45,25 @@ This will create:
 Executing `winfra lambda-subscribe some-name --profile wolox -p .` will give the following directory structure:
 
 ```
-|-- tmp
-    |-- infrastructure
-    |-- config.tf
-        |-- some-name-lambda-subscribe.tf
-        |-- lambda-subscribe
-            |-- some-name
-                |-- api-gtw-get.tf
-                |-- api-gtw-integration-get.tf
-                |-- api-gtw-integration-post.tf
-                |-- api-gtw-post.tf
-                |-- api-gtw.tf
-                |-- iam-role.tf
-                |-- simpledb.tf
-                |-- subscribe-get.tf
-                |-- subscribe-post.tf
-                |-- subscribe-get
-                |   |-- subscribe-get.js
-                |   |-- node_modules
-                |-- subscribe-post
-                    |-- subscribe-post.js
-                    |-- node_modules
+|-- infrastructure
+        |-- config.tf
+        |-- dev-start-cloudwatch-rule.tf
+        |-- dev-stop-cloudwatch-rule.tf
+        |-- lambda-functions.tf
+        |-- lambda-iam-role.tf
+        |-- stack-sleep-awake
+            |-- stack-start
+            |   |-- index.js
+            |-- stack-stop
+            |   |-- index.js
+            |-- start-beanstalk
+            |   |-- index.js
+            |-- start-rds
+            |   |-- index.js
+            |-- stop-beanstalk
+            |   |-- index.js
+            |-- stop-rds
+                |-- index.js
 ```
 
 After this, just `cd PATH/infrastructure` and run `terraform get && terraform plan`. This will output the plan to be executed against AWS. If you wish to apply the changes, run `terraform apply`.
@@ -87,21 +85,20 @@ This will:
 
 Executing `winfra rails-stack test --profile=wolox -p .` will create the following directory structure:
 ```
-|-- tmp
-    |-- infrastructure
-        |-- beanstalk-dev.tf
-        |-- config.tf
-        |-- main-dev.tf
-        |-- dev
-            |-- beanstalk
-            |   |-- beanstalk-role.tf
-            |   |-- beanstalk-sg.tf
-            |   |-- beanstalk.tf
-            |   |-- outputs.tf
-            |-- rds
-                |-- outputs.tf
-                |-- rds-sg.tf
-                |-- rds.tf
+|-- infrastructure
+    |-- beanstalk-dev.tf
+    |-- config.tf
+    |-- main-dev.tf
+    |-- dev
+        |-- beanstalk
+        |   |-- beanstalk-role.tf
+        |   |-- beanstalk-sg.tf
+        |   |-- beanstalk.tf
+        |   |-- outputs.tf
+        |-- rds
+            |-- outputs.tf
+            |-- rds-sg.tf
+            |-- rds.tf
 ```
 
 After this, just `cd PATH/infrastructure` and run `terraform get && terraform plan`. This will output the plan to be executed against AWS. If you wish to apply the changes, run `terraform apply`.
@@ -124,16 +121,60 @@ This will:
 
 Executing `winfra s3_bucket my-bucket --profile wolox -p .` will create the following directory structure:
 ```
-|-- tmp
-    |-- infrastructure
-        |-- config.tf
-        |-- my-bucket.tpl
-        |-- s3-my-bucket-dev.tf
-        |-- dev
-            |-- s3
-                |-- my-bucket
-                    |-- s3-deploy-group.tf
-                    |-- s3.tf
+|-- infrastructure
+    |-- config.tf
+    |-- my-bucket.tpl
+    |-- s3-my-bucket-dev.tf
+    |-- dev
+        |-- s3
+            |-- my-bucket
+                |-- s3-deploy-group.tf
+                |-- s3.tf
+```
+
+After this, just `cd PATH/infrastructure` and run `terraform get && terraform plan`. This will output the plan to be executed against AWS. If you wish to apply the changes, run `terraform apply`.
+
+## Stack On/Off
+
+| Option        | Alias         | Required        | Description   |
+| :-----------: | :-----------: | :-----------:   | :-----------: |
+| --profile     | -             | true            | The aws profile to use |
+| --path        | -p            | true            | The path where the files should be created|
+| --env         | -e            | false           | The environment for which this templates will be created for. If no option is passed, default is `dev` |
+
+Options:
+
+This will:
+
+1. Create a set of lambda functions.
+2. Create a two cloudwatch rules that will execute the functions at 9PM ART and 8AM ART
+
+Executing `winfra stack-sleep-awake --profile wolox -p .` will create the following directory structure:
+```
+|-- infrastructure
+    |-- config.tf
+    |-- dev-start-cloudwatch-rule.tf
+    |-- dev-stop-cloudwatch-rule.tf
+    |-- lambda-iam-role.tf
+    |-- stack-start-lambda.tf
+    |-- stack-stop-lambda.tf
+    |-- start-beanstalk-lambda.tf
+    |-- start-rds-lambda.tf
+    |-- stop-beanstalk-lambda.tf
+    |-- stop-rds-lambda.tf
+    |-- stack-sleep-awake
+        |-- stack-start
+        |   |-- index.js
+        |-- stack-stop
+        |   |-- index.js
+        |-- start-beanstalk
+        |   |-- index.js
+        |-- start-rds
+        |   |-- index.js
+        |-- stop-beanstalk
+        |   |-- index.js
+        |-- stop-rds
+            |-- index.js
 ```
 
 After this, just `cd PATH/infrastructure` and run `terraform get && terraform plan`. This will output the plan to be executed against AWS. If you wish to apply the changes, run `terraform apply`.
