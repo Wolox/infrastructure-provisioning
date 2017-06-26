@@ -14,13 +14,14 @@ module Winfra
       INTEGRATION_TEMPLATE = Winfra.path_to("#{BASE_PATH}/api-gtw-integration.tf.erb")
       IAM_TEMPLATE = Winfra.path_to("#{BASE_PATH}/lambda-iam-role.tf.erb")
       MAIN_TEMPLATE = Winfra.path_to("#{BASE_PATH}/main.tf.erb")
+      PACKAGE_DIRECTORY = Winfra.path_to("#{BASE_PATH}/package.json")
 
       def initialize(path, name, env, profile)
         @path = path
         @env = env
         @name = name
         @profile = profile
-        @modules_dest_path = "#{@path}/lambda-subscribe/#{@name}"
+        @modules_dest_path = "#{@path}/lambda-subscribe"
         @dest_base_path = path
         FileUtils.mkdir_p(@modules_dest_path)
       end
@@ -68,12 +69,12 @@ module Winfra
       end
 
       def create_lambda_function(lambda_function_name)
+        FileUtils.mkdir_p("#{@modules_dest_path}/#{lambda_function_name}")
         @lambda_function_file = "#{lambda_function_name}.zip"
         dest_file_name = "#{@modules_dest_path}/#{lambda_function_name}.tf"
         Winfra.render_template(LAMBDA_TEMPLATE, dest_file_name, binding)
-        node_modules_directory = Winfra.path_to("#{BASE_PATH}/node_modules")
         function_location = Winfra.path_to("#{BASE_PATH}/#{lambda_function_name}.js")
-        Winfra.copy_dir(node_modules_directory, "#{@modules_dest_path}/#{lambda_function_name}/node_modules")
+        Winfra.copy_file(PACKAGE_DIRECTORY, "#{@modules_dest_path}/#{lambda_function_name}/package.json")
         Winfra.copy_file(function_location, "#{@modules_dest_path}/#{lambda_function_name}/#{lambda_function_name}.js")
       end
     end

@@ -17,6 +17,7 @@ module Winfra
         @env = options[:env]
         @public_website = options[:public_website]
         @profile = options[:profile]
+        @aws_authentication = options[:aws_auth]
       end
 
       def build

@@ -21,15 +21,16 @@ module Winfra
       MAIN_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/rails-stack-main.tf.erb')
       APP_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-application.tf.erb')
 
-      def initialize(path, env, vpc, app_name, profile)
+      def initialize(app_name, path, options)
         @path = path
-        @env = env
-        @has_vpc = vpc
+        @env = options[:env]
+        @has_vpc = options[:vpc]
         @app_name = app_name
         @beanstalk_base = "#{path}/#{@env}/beanstalk"
         @rds_base = "#{path}/#{@env}/rds"
         @vpc_base = "#{path}/modules/vpc"
-        @profile = profile
+        @profile = options[:profile]
+        @aws_authentication = options[:aws_auth]
       end
 
       def build

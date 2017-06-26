@@ -4,11 +4,14 @@ variable "engine" {}
 variable "engine_version" {}
 variable "storage" {}
 variable "instance_class" {}
-variable "database_password" {}
 <% if @has_vpc %>
 variable "private_subnet_a" {}
 variable "private_subnet_b" {}
 <% end %>
+
+resource "random_id" "<%= @app_name %>_<%= @env %>_db_passwd" {
+  byte_length = 4
+}
 
 resource "aws_db_instance" "<%= @app_name %>-<%= @env %>" {
   identifier             = "${var.application_name}-${var.environment}"
@@ -18,7 +21,7 @@ resource "aws_db_instance" "<%= @app_name %>-<%= @env %>" {
   instance_class         = "${var.instance_class}"
   name                   = "${replace("${var.application_name}", "-", "_")}"
   username               = "${replace("${var.application_name}", "-", "_")}"
-  password               = "${var.database_password}"
+  password               = "${random_id.<%= @app_name %>_<%= @env %>_db_passwd.hex}"
   skip_final_snapshot    = true
   vpc_security_group_ids = ["${aws_security_group.<%= @app_name %>-<%= @env %>.id}"]
   <% if @has_vpc %>

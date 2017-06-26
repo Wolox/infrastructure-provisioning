@@ -1,4 +1,6 @@
 provider "aws" {
   region     = "us-east-1",
+<% if @aws_authentication == 'profile' %>
   profile    = "<%= @profile %>"
+<% end %>
 }
