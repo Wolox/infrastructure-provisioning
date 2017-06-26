@@ -4,7 +4,7 @@ variable "<%= @sanitized_domain %>_bucket_name" {
 }
 
 module "s3_<%= @sanitized_domain %>" {
-  source = "./<%= @env %>/s3/<%= @domain %>"
+  source = "./s3/<%= @env %>/<%= @domain %>"
   bucket_name = "${var.<%= @sanitized_domain %>_bucket_name}"
   acl = "<%= @public_website ? "public-read" : "private" %>"
 }

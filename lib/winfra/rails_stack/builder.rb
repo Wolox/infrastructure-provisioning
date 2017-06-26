@@ -64,7 +64,7 @@ module Winfra
       def generate_main_template
         Winfra.render_template(APP_TEMPLATE, "#{@path}/beanstalk-#{@env}.tf", binding)
         Winfra.render_template(MAIN_TEMPLATE, "#{@path}/main-#{@env}.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding, false)
       end
     end
   end

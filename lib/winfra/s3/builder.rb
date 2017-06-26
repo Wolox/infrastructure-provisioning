@@ -21,12 +21,12 @@ module Winfra
       end
 
       def build
-        FileUtils.mkdir_p("#{path}/#{env}/s3/#{domain}")
-        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/#{env}/s3/#{domain}/s3-deploy-group.tf", binding)
-        Winfra.render_template(DEPLOY_GROUP_TEMPLATE, "#{@path}/#{env}/s3/#{domain}/s3.tf", binding)
-        Winfra.render_template(POLICY_TEMPLATE, "#{@path}/#{domain}.tpl", binding)
+        FileUtils.mkdir_p("#{path}/s3/#{env}/#{domain}")
+        Winfra.render_template(RESOURCE_TEMPLATE, "#{@path}/s3/#{env}/#{domain}/s3-deploy-group.tf", binding)
+        Winfra.render_template(DEPLOY_GROUP_TEMPLATE, "#{@path}/s3/#{env}/#{domain}/s3.tf", binding)
+        Winfra.render_template(POLICY_TEMPLATE, "#{@path}//s3/#{env}/#{domain}/#{domain}.tpl", binding)
         Winfra.render_template(MAIN_TEMPLATE, "#{@path}/s3-#{@domain}-#{@env}.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding, false)
       end
     end
   end

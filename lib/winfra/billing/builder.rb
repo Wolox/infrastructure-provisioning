@@ -27,7 +27,7 @@ module Winfra
         create_lambda_function
         create_billing_bucket
         Winfra.render_template(MAIN_TEMPLATE, "#{@path}/main.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding, false)
       end
 
       private

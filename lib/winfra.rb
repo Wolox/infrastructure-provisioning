@@ -18,12 +18,12 @@ module Winfra
     @logger
   end
 
-  def self.render_template(template_path, dest_path, a_binding)
+  def self.render_template(template_path, dest_path, a_binding, append = true)
     Winfra.logger.debug "Rendering template #{template_path}"
     template = File.read(template_path)
     string = ERB.new(template).result(a_binding)
     Winfra.logger.debug "Saving template to #{dest_path}"
-    File.open(dest_path, 'a') { |file| file.write(string) }
+    File.open(dest_path, append ? 'a' : 'w') { |file| file.write(string) }
   end
 
   def self.copy_file(src, dest)

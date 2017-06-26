@@ -33,7 +33,7 @@ module Winfra
         enable_method('post')
         enable_method('get')
         Winfra.render_template(MAIN_TEMPLATE, "#{@dest_base_path}/#{@name}-lambda-subscribe.tf", binding)
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@dest_base_path}/config.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@dest_base_path}/config.tf", binding, false)
       end
 
       private

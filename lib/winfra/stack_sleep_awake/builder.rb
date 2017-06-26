@@ -32,7 +32,7 @@ module Winfra
       def create_cloudwatch_rules
         create_cloudwatch_rule('start')
         create_cloudwatch_rule('stop')
-        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding)
+        Winfra.render_template(CONFIG_TEMPLATE, "#{@path}/config.tf", binding, false)
       end
 
       def create_cloudwatch_rule(action)
