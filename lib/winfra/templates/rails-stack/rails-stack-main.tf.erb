@@ -14,9 +14,11 @@ module "<%= @env %>_api" {
   application_name = "${var.application_name}"
   environment = "<%= @env %>"
   instance_type = "t2.medium"
+  <% if @has_rds %>
   db_user = "${module.<%= @env %>_rds.db_user}"
   db_name = "${module.<%= @env %>_rds.db_name}"
   db_url = "${module.<%= @env %>_rds.db_url}"
+  <% end %>
 
   <% if @has_vpc %>
   vpc_id = "${module.vpc.id}"
@@ -24,7 +26,7 @@ module "<%= @env %>_api" {
   public_subnet_b = "${module.vpc.public_subnet_b}"
   <% end %>
 }
-
+<% if @has_rds %>
 module "<%= @env %>_rds" {
   source = "./<%= @env %>/rds"
   application_name = "${var.application_name}"
@@ -41,3 +43,4 @@ module "<%= @env %>_rds" {
   vpc_id = "${module.vpc.id}"
   <% end %>
 }
+<% end %>

@@ -4,7 +4,7 @@ module Winfra
   module RailsStack
     class Builder
       attr_reader :path, :env, :public_website, :app_name, :beanstalk_base, :rds_base, :has_vpc,
-                  :vpc_base
+                  :vpc_base, :has_rds
 
       BEANSTALK_RESOURCE_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-resource.tf.erb')
       BEANSTALK_SG_TEMPLATE = Winfra.path_to('winfra/templates/rails-stack/beanstalk-sg.tf.erb')
@@ -31,11 +31,12 @@ module Winfra
         @vpc_base = "#{path}/modules/vpc"
         @profile = options[:profile]
         @aws_authentication = options[:aws_auth]
+        @has_rds = options[:rds]
       end
 
       def build
         generate_beanstalk_templates
-        generate_rds_templates
+        generate_rds_templates if has_rds
         generate_vpc_templates if has_vpc
         generate_main_template
       end

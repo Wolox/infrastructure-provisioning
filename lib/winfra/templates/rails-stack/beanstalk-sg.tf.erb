@@ -3,12 +3,12 @@ resource "aws_security_group" "<%= @app_name %>-<%= @env %>" {
   description = "Beanstalk EC2 Security Group"
   <% if @has_vpc %>
     vpc_id    = "${var.vpc_id}"
-  <% end %>
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+    egress {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  <% end %>
 }

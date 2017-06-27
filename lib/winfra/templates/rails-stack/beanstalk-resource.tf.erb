@@ -3,9 +3,11 @@
 variable "environment" {}
 variable "application_name" {}
 variable "instance_type" {}
+<% if @has_rds %>
 variable "db_user" {}
 variable "db_name" {}
 variable "db_url" {}
+<% end %>
 <% if @has_vpc %>
   variable "vpc_id" {}
   variable "public_subnet_a" {}
@@ -60,11 +62,13 @@ resource "aws_elastic_beanstalk_environment" "<%= @app_name %>-<%= @env %>" {
     value     = "${aws_iam_instance_profile.<%= @app_name %>-<%= @env %>.arn}"
   }
 
+<% if @has_rds %>
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "DATABASE_URL"
     value = "postgres://${var.db_user}:${random_id.<%= @app_name %>_<%= @env %>_db_passwd.hex}@${var.db_url}:5432/${var.db_name}"
   }
+<% end %>
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
