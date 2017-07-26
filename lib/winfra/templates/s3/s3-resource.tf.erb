@@ -3,7 +3,7 @@ variable "acl" {}
 
 <% if @public_website %>
 data "template_file" "<%= @sanitized_domain %>" {
-    template = "${file("${var.bucket_name}.tpl")}"
+    template = "${file("./s3/<%= @env %>/<%= @domain %>/${var.bucket_name}.tpl")}"
 
     vars {
         bucket_name = "${var.bucket_name}"
