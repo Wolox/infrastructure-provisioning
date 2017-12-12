@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    winfra (0.1.3)
+    winfra (0.1.4)
       rubyzip
       thor
 
@@ -36,4 +36,4 @@ DEPENDENCIES
   winfra!
 
 BUNDLED WITH
-   1.14.6
+   1.15.4

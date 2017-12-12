@@ -21,7 +21,7 @@ resource "random_id" "<%= @app_name %>_<%= @env %>_db_passwd" {
 resource "aws_elastic_beanstalk_environment" "<%= @app_name %>-<%= @env %>" {
   name = "${var.application_name}-${var.environment}"
   application = "<%= @app_name %>"
-  solution_stack_name = "64bit Amazon Linux 2017.03 v2.4.0 running Ruby 2.3 (Puma)"
+  solution_stack_name = "64bit Amazon Linux 2017.09 v2.6.1 running Ruby 2.4 (Puma)"
   cname_prefix = "${var.application_name}-${var.environment}"
   <% if @has_vpc %>
 
